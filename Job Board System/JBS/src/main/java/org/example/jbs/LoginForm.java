@@ -36,6 +36,7 @@ public class LoginForm extends Application {
         loginButton.setOnAction(e -> {
             String username = userField.getText();
             String password = passField.getText();
+            username=username.trim();
             if (username.isEmpty() || password.isEmpty()) {
                 statusLabel.setText("All fields are required!");
             }

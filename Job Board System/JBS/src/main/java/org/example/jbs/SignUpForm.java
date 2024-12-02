@@ -61,7 +61,8 @@ public class SignUpForm extends Application {
             String password = passField.getText();
             String email = emailField.getText();
             String role = roleComboBox.getValue();
-
+            username=username.trim();
+            email=email.trim();
 
 
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty() || role == null) {
