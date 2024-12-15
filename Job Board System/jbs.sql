@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2024 at 07:33 PM
+-- Generation Time: Dec 15, 2024 at 07:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,11 +30,25 @@ SET time_zone = "+00:00";
 CREATE TABLE `employer` (
   `id` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
-  `name` int(20) NOT NULL,
-  `companyName` int(50) NOT NULL,
-  `location` int(255) NOT NULL,
-  `History` int(255) NOT NULL,
-  `bio` int(255) DEFAULT NULL
+  `name` varchar(20) NOT NULL,
+  `companyName` varchar(50) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `History` varchar(255) NOT NULL,
+  `bio` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` int(5) NOT NULL,
+  `employer_id` int(5) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `requirements` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -94,6 +108,13 @@ ALTER TABLE `employer`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `employer_id` (`employer_id`);
+
+--
 -- Indexes for table `jobseeker`
 --
 ALTER TABLE `jobseeker`
@@ -120,6 +141,12 @@ ALTER TABLE `employer`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `jobseeker`
 --
 ALTER TABLE `jobseeker`
@@ -140,6 +167,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `employer`
   ADD CONSTRAINT `employer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`userID`);
+
+--
+-- Constraints for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`employer_id`) REFERENCES `employer` (`id`);
 
 --
 -- Constraints for table `jobseeker`

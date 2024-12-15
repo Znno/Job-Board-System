@@ -29,6 +29,7 @@ public class EmployerPage extends Application {
         Button profileButton = new Button("Profile");
         Button viewJobsButton = new Button("View Jobs");
 
+
         layout.getChildren().addAll(logoutButton, profileButton, viewJobsButton);
 
         logoutButton.setOnAction(e -> {
