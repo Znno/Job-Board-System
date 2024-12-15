@@ -16,6 +16,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class LoginForm extends Application {
+
+    public String get_type(String username) {
+        String url = "jdbc:mysql://localhost/jbs";
+        String sql = "SELECT userType FROM users WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(url, "root", "")) {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("userType");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public void start(Stage stage) {
         stage.setTitle("Login Form");
@@ -54,6 +71,16 @@ public class LoginForm extends Application {
             else if(validateLogin(username, password)==-2){
                 statusLabel.setText("Error occurred.");
             }
+            String type = get_type(username);
+
+            if(type.equals("jobSeeker")) {
+                new JobSeekerPage().start(new Stage());
+            } else if(type.equals("employer")) {
+                new EmployerPage().start(new Stage());
+            } else if(type.equals("admin")) {
+                new AdminPage().start(new Stage());
+            }
+
         });
 
         grid.add(userLabel, 0, 0);
