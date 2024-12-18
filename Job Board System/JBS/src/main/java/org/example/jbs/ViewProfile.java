@@ -19,7 +19,6 @@ public class ViewProfile extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Profile View and Update");
 
-        // Create labels and text fields for profile data
         Label nameLabel = new Label("Name:");
         TextField nameField = new TextField();
 
@@ -41,38 +40,30 @@ public class ViewProfile extends Application {
         Label educationLabel = new Label("Education:");
         TextArea educationArea = new TextArea();
 
-        // Create buttons for saving updates and cancelling
         Button saveButton = new Button("Save Changes");
         Button cancelButton = new Button("Cancel");
 
-        // Set up layout
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
         layout.getChildren().addAll(nameLabel, nameField, emailLabel, emailField, locationLabel, locationField,
                 bioLabel, bioArea, skillsLabel, skillsArea, experienceLabel, experienceArea, educationLabel, educationArea, saveButton, cancelButton);
 
-        // Event handlers for the buttons
         saveButton.setOnAction(e -> saveProfileChanges(nameField.getText(), emailField.getText(), locationField.getText(),
                 bioArea.getText(), skillsArea.getText(), experienceArea.getText(), educationArea.getText()));
 
         cancelButton.setOnAction(e -> primaryStage.close());  // Close the window on cancel
 
-        // Fetch the user ID based on the username
 
-        // Fetch the profile data and populate the fields
         fetchProfileData(userId, nameField, emailField, locationField, bioArea, skillsArea, experienceArea, educationArea);
 
-        // Show the UI
         Scene scene = new Scene(layout, 600, 700);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    // Fetch profile data from database and insert a new profile if no data is found
     private void fetchProfileData(int userId, TextField nameField, TextField emailField, TextField locationField,
                                   TextArea bioArea, TextArea skillsArea, TextArea experienceArea, TextArea educationArea) {
         try {
-            // Database connection
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
             String sql = "SELECT * FROM jobseeker_profile WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -80,7 +71,6 @@ public class ViewProfile extends Application {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // If data exists, populate the form fields
                 nameField.setText(rs.getString("name"));
                 emailField.setText(rs.getString("email"));
                 locationField.setText(rs.getString("location"));
@@ -89,7 +79,6 @@ public class ViewProfile extends Application {
                 experienceArea.setText(rs.getString("experience"));
                 educationArea.setText(rs.getString("education"));
             } else {
-                // If no data exists, insert a new profile row
                 String insertSql = "INSERT INTO jobseeker_profile (user_id, name, email, location, bio, skills, experience, education) " +
                         "VALUES (?, '', '', '', '', '', '', '')";
                 PreparedStatement insertStmt = conn.prepareStatement(insertSql);
@@ -102,10 +91,8 @@ public class ViewProfile extends Application {
         }
     }
 
-    // Get user ID based on username
 
 
-    // Save the profile changes to the database
     private void saveProfileChanges(String name, String email, String location, String bio, String skills,
                                     String experience, String education) {
         try {

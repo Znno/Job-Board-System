@@ -32,7 +32,6 @@ public class ViewJobDetails {
 
         Button applyButton = new Button("Apply");
         applyButton.setOnAction(e -> {
-            // Handle the apply action here
             new ApplyForJob(employer_id,user_id).start(new Stage());
 
             System.out.println("Applied for the job: " + title);

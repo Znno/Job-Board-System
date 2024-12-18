@@ -17,13 +17,11 @@ public class ApplyForJob
     {
         this.employer_id=employer_id;
         this.user_id=user_id;
-        //retrievePDF(user_id);
 
     }
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Upload CV");
 
-        // Open a file chooser dialog to select the CV
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select CV (PDF File)");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -80,7 +78,6 @@ public class ApplyForJob
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
-        // suggest path to save the file
         String outputFilePath="C:\\Users\\ibrahem\\Desktop\\cv.pdf";
 
         String query = "SELECT cv FROM applicants_details WHERE user_id = ?";

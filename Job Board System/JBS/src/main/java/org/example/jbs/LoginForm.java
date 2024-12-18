@@ -79,7 +79,6 @@ public class LoginForm extends Application {
             String type = get_type(username);
 
             if(type.equals("jobSeeker")) {
-//                JobSeekerPage jobSeekerPageprofilePage = new JobSeekerPage(username);
                 new JobSeekerPage(username).start(new Stage());
             } else if(type.equals("employer")) {
                 new EmployerPage().start(new Stage());

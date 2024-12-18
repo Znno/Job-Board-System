@@ -18,10 +18,8 @@ public class JobSeekerPage extends Application {
     public static int getUserIdByUsername(String username) {
         int userId = -1;
 
-        // Define the SQL query
         String sql = "SELECT userID FROM users WHERE userName = ?";
 
-        // Database connection variables
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
@@ -55,9 +53,6 @@ public class JobSeekerPage extends Application {
         Scene scene = new Scene(layout, 300, 200);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        // i want to create 3 bottons in the jobseeker header page (logout, profile, view jobs)
-
         Button logoutButton = new Button("Logout");
         Button profileButton = new Button("Profile");
         Button viewJobsButton = new Button("View Jobs");
@@ -75,10 +70,6 @@ public class JobSeekerPage extends Application {
         profileButton.setOnAction(e -> new ViewProfile(user_id).start(new Stage()));
         viewJobsButton.setOnAction(e -> new ViewJobList(user_id).start(new Stage()));
 
-//        viewJobsButton.setOnAction(e -> {
-//            //        loginButton.setOnAction(e -> new LoginForm().start(new Stage()));
-//            new JSJobListPage().start(e->new ViewJobList().start(new Stage()));
-//        });
 
 
     }
