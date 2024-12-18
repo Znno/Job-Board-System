@@ -7,7 +7,42 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.sql.*;
+
 public class JobSeekerPage extends Application {
+    String username;
+    public JobSeekerPage(String username)
+    {
+        this.username=username;
+    }
+    public static int getUserIdByUsername(String username) {
+        int userId = -1;
+
+        // Define the SQL query
+        String sql = "SELECT userID FROM users WHERE userName = ?";
+
+        // Database connection variables
+        String url = "jdbc:mysql://localhost/jbs";
+        String user = "root";
+        String password = "";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                userId = rs.getInt("userID");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userId;
+    }
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Job Seeker Page");
@@ -36,10 +71,14 @@ public class JobSeekerPage extends Application {
         profileButton.setOnAction(e -> {
             new JSProfilePage().start(new Stage());
         });
+        int user_id=getUserIdByUsername(username);
+        profileButton.setOnAction(e -> new ViewProfile(user_id).start(new Stage()));
+        viewJobsButton.setOnAction(e -> new ViewJobList(user_id).start(new Stage()));
 
-        viewJobsButton.setOnAction(e -> {
-            new JSJobListPage().start(new Stage());
-        });
+//        viewJobsButton.setOnAction(e -> {
+//            //        loginButton.setOnAction(e -> new LoginForm().start(new Stage()));
+//            new JSJobListPage().start(e->new ViewJobList().start(new Stage()));
+//        });
 
 
     }

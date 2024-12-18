@@ -32,6 +32,11 @@ public class LoginForm extends Application {
         }
         return null;
     }
+    String user;
+    public String get_username()
+    {
+        return user;
+    }
 
     @Override
     public void start(Stage stage) {
@@ -74,7 +79,8 @@ public class LoginForm extends Application {
             String type = get_type(username);
 
             if(type.equals("jobSeeker")) {
-                new JobSeekerPage().start(new Stage());
+//                JobSeekerPage jobSeekerPageprofilePage = new JobSeekerPage(username);
+                new JobSeekerPage(username).start(new Stage());
             } else if(type.equals("employer")) {
                 new EmployerPage().start(new Stage());
             } else if(type.equals("admin")) {
@@ -111,6 +117,7 @@ public class LoginForm extends Application {
             String query = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
+            user=username;
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){

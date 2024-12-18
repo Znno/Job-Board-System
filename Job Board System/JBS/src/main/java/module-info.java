@@ -1,11 +1,11 @@
-module org.example.jbs {
-    requires javafx.controls;
+module JBS {
+    requires java.sql;           // For java.sql package (database access)
+    requires java.desktop;       // For java.awt package (desktop UI elements)
+    requires atlantafx.base;     // For atlantafx.base.theme package (external dependency)
+
+    requires javafx.controls;    // Ensure JavaFX modules are declared
     requires javafx.fxml;
-    requires java.sql;
-    requires atlantafx.base;
-    requires java.desktop;
 
-
-    opens org.example.jbs to javafx.fxml;
-    exports org.example.jbs;
+    opens org.example.jbs to javafx.fxml;  // Allow access to your package for JavaFX
+    exports org.example.jbs;               // Export your package
 }
