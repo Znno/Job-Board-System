@@ -5,6 +5,7 @@ module JBS {
 
     requires javafx.controls;    // Ensure JavaFX modules are declared
     requires javafx.fxml;
+    requires java.mail;
 
     opens org.example.jbs to javafx.fxml;  // Allow access to your package for JavaFX
     exports org.example.jbs;               // Export your package

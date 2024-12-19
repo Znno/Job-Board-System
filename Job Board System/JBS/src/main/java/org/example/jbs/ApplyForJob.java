@@ -21,7 +21,21 @@ public class ApplyForJob
     }
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Upload CV");
-
+        String sql=" SELECT id from jobseeker_profile where user_id=?";
+        String url = "jdbc:mysql://localhost/jbs";
+        String dbUser = "root";
+        String dbPass = "";
+        int jobseeker_id=-1;
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPass);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, this.user_id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                jobseeker_id = rs.getInt("id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select CV (PDF File)");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -29,7 +43,7 @@ public class ApplyForJob
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile != null) {
             try {
-                uploadCVToDatabase(selectedFile, user_id, employer_id, "pending"); // Example: user_id=1, employer_id=1
+                uploadCVToDatabase(selectedFile, jobseeker_id, employer_id, "pending"); // Example: user_id=1, employer_id=1
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -45,7 +59,7 @@ public class ApplyForJob
         String user = "root";
         String password = "";
 
-        String query = "INSERT INTO applicants_details (cv, user_id, employer_id, state) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO applicants_details (cv, jobseeker_id, employer_id, state) VALUES (?, ?, ?, ?)";
 
         if (!file.getName().endsWith(".pdf")) {
             System.err.println("Invalid file type. Please upload a PDF.");
@@ -80,7 +94,7 @@ public class ApplyForJob
         String password = "";
         String outputFilePath="C:\\Users\\ibrahem\\Desktop\\cv.pdf";
 
-        String query = "SELECT cv FROM applicants_details WHERE user_id = ?";
+        String query = "SELECT cv FROM applicants_details WHERE jobseeker_id = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              PreparedStatement stmt = conn.prepareStatement(query)) {

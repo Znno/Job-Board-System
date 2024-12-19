@@ -7,10 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.*;
 import java.util.regex.Pattern;
 
 public class SignUpForm extends Application {
@@ -19,10 +16,12 @@ public class SignUpForm extends Application {
                 .matcher(emailAddress)
                 .matches();
     }
-    boolean  simpleRegexValidation(String emailAddress) {
+
+    boolean simpleRegexValidation(String emailAddress) {
         String regexPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
         return patternMatches(emailAddress, regexPattern);
     }
+
     @Override
     public void start(Stage stage) {
         stage.setTitle("Sign Up Form");
@@ -61,39 +60,29 @@ public class SignUpForm extends Application {
             String password = passField.getText();
             String email = emailField.getText();
             String role = roleComboBox.getValue();
-            username=username.trim();
-            email=email.trim();
+            username = username.trim();
+            email = email.trim();
 
-
-                if (username.isEmpty() || password.isEmpty() || email.isEmpty() || role == null) {
-                    statusLabel.setText("All fields are required!");
-                }
-                else if(!simpleRegexValidation(email)){
-                    statusLabel.setText("Invalid email address");
-                }
-                else if (registerUser(username, password, email, role)) {
-                    statusLabel.setText("Sign-up successful!");
-                } else {
-                    statusLabel.setText("Sign-up failed.");
-                }
-
+            if (username.isEmpty() || password.isEmpty() || email.isEmpty() || role == null) {
+                statusLabel.setText("All fields are required!");
+            } else if (!simpleRegexValidation(email)) {
+                statusLabel.setText("Invalid email address");
+            } else if (registerUser(username, password, email, role)) {
+                statusLabel.setText("Sign-up successful!");
+            } else {
+                statusLabel.setText("Sign-up failed.");
+            }
         });
-
-
 
         // Add components to the grid
         grid.add(userLabel, 0, 0);
         grid.add(userField, 1, 0);
-
         grid.add(passLabel, 0, 1);
         grid.add(passField, 1, 1);
-
         grid.add(emailLabel, 0, 2);
         grid.add(emailField, 1, 2);
-
         grid.add(roleLabel, 0, 3);
         grid.add(roleComboBox, 1, 3);
-
         grid.add(signUpButton, 0, 4);
         grid.add(statusLabel, 1, 4);
 
@@ -110,26 +99,56 @@ public class SignUpForm extends Application {
         String dbPass = "";
 
         try (Connection conn = DriverManager.getConnection(url, dbUser, dbPass)) {
+            // Insert into users table
             String query = "INSERT INTO users (userName, password, email, userType) VALUES (?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(query);
+            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, email);
             stmt.setString(4, role);
             stmt.executeUpdate();
-            return true;
-        }
-        catch (SQLIntegrityConstraintViolationException e) {
-            // write me a pop out message
+
+            // Retrieve the generated user ID
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int userId = generatedKeys.getInt(1);
+
+                // Insert into employer or jobseeker_profile table based on role
+                if ("employer".equals(role)) {
+                    String query2 = "INSERT INTO employer (user_id, name, companyName, location, history, bio) VALUES (?, ?, ?, ?, ?, ?)";
+                    PreparedStatement stmt2 = conn.prepareStatement(query2);
+                    stmt2.setInt(1, userId);
+                    stmt2.setString(2, username);
+                    stmt2.setString(3, "companyName");
+                    stmt2.setString(4, "location");
+                    stmt2.setString(5, "history");
+                    stmt2.setString(6, "bio");
+                    stmt2.executeUpdate();
+                } else if ("jobSeeker".equals(role)) {
+                    String query3 = "INSERT INTO jobseeker_profile (user_id, name, email, location, bio, skills, experience, education) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement stmt3 = conn.prepareStatement(query3);
+                    stmt3.setInt(1, userId);
+                    stmt3.setString(2, username);
+                    stmt3.setString(3, email);
+                    stmt3.setString(4, "location");
+                    stmt3.setString(5, "bio");
+                    stmt3.setString(6, "skills");
+                    stmt3.setString(7, "experience");
+                    stmt3.setString(8, "education");
+                    stmt3.executeUpdate();
+                }
+                return true;
+            } else {
+                throw new SQLException("Failed to retrieve user ID.");
+            }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            // Show a pop-up message
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error !!!");
-            alert.setContentText("userName or email already exists.");
-
+            alert.setContentText("Username or email already exists.");
             alert.showAndWait();
             return false;
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
