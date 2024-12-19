@@ -62,7 +62,7 @@ public class manageUser extends Application {
             e.printStackTrace();
         }
     }
-    private void deleteUser(String username) {
+    private boolean deleteUser(String username) {
         String getUserIdSql = "SELECT userID, userType FROM users WHERE username = ?";
         String deleteApplicationsByUserSql = "DELETE FROM applicants_details WHERE jobseeker_id = ?";
         String deleteApplicationsByEmployerSql = "DELETE FROM applicants_details WHERE employer_id = ?";
@@ -135,10 +135,12 @@ public class manageUser extends Application {
                 } else {
                     System.out.println("User not found.");
                 }
+                return rowsAffected>0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
     private ObservableList<User> getAllUsers() {
         ObservableList<User> users = FXCollections.observableArrayList();
@@ -157,7 +159,7 @@ public class manageUser extends Application {
         users = getAllUsers();
         table.setItems(users);
     }
-    private void updateUserStatus(String username, boolean isActive) {
+    private boolean updateUserStatus(String username, boolean isActive) {
         String sql = "UPDATE users SET isActive = ? WHERE username = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setBoolean(1, isActive);
@@ -168,9 +170,11 @@ public class manageUser extends Application {
             } else {
                 System.out.println("User not found.");
             }
+            return rowsAffected>0;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
@@ -192,21 +196,33 @@ public class manageUser extends Application {
         Label statusLabel = new Label();
 
         deleteButton.setOnAction(e -> {
-            deleteUser(userField.getText());
-            statusLabel.setText("User deleted.");
-            refreshTable();
+            if(deleteUser(userField.getText())) {
+                statusLabel.setText("User deleted.");
+                refreshTable();
+            }
+            else {
+                statusLabel.setText("User not found.");
+            }
         });
 
         activateButton.setOnAction(e -> {
-            updateUserStatus(userField.getText(), true);
-            statusLabel.setText("User activated.");
-            refreshTable();
+            if(updateUserStatus(userField.getText(), true)) {
+                statusLabel.setText("User activated.");
+                refreshTable();
+            }
+            else {
+                statusLabel.setText("User not found.");
+            }
         });
 
         deactivateButton.setOnAction(e -> {
-            updateUserStatus(userField.getText(), false);
-            statusLabel.setText("User deactivated.");
-            refreshTable();
+            if(updateUserStatus(userField.getText(), false)) {
+                statusLabel.setText("User deactivated.");
+                refreshTable();
+            }
+            else{
+                statusLabel.setText("User not found.");
+            }
         });
 
         viewAllButton.setOnAction(e -> {
