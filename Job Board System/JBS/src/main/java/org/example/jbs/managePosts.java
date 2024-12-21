@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,6 +21,8 @@ public class managePosts extends Application {
 
     private TableView<Job> table;
     private ObservableList<Job> jobList;
+
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -61,6 +64,7 @@ public class managePosts extends Application {
                     Job job = getTableView().getItems().get(getIndex());
                     deleteJob(job.getId());
                     loadJobs();
+                    table.refresh(); // Refresh the table to reload the buttons
                 });
 
                 HBox pane = new HBox(editButton, deleteButton);
@@ -126,6 +130,7 @@ public class managePosts extends Application {
                     Job job = getTableView().getItems().get(getIndex());
                     deleteJob(job.getId());
                     loadJobs();
+                    table.refresh(); // Refresh the table to reload the buttons
                 });
 
                 HBox pane = new HBox(editButton, deleteButton);

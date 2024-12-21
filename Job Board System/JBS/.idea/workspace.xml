@@ -6,27 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="3a005be1-75cb-4cd4-9d29-c655743805aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/AddJobPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/AddJobPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/AdminPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/AdminPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ApplyForJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ApplyForJob.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPJobListPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPJobListPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPupdateJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPupdateJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/JobSeekerPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/JobSeekerPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobDetails.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewProfile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/managePosts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/managePosts.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="CompilerWorkspaceConfiguration">
-    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -38,20 +24,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="KubernetesApiProvider">{
-  &quot;isMigrated&quot;: true
-}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\apache-maven-3.9.9" />
+        <option name="localRepository" value="C:\Users\amony\Downloads\Compressed\apache-maven-3.9.9-src" />
         <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
         <option name="showDialogWithAdvancedSettings" value="true" />
       </MavenGeneralSettings>
     </option>
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -69,23 +49,18 @@
     &quot;Application.SignUpForm.executor&quot;: &quot;Run&quot;,
     &quot;Maven.JBS [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.JBS [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/3TH/Software Engineer/Job-Board-System/Job Board System/JBS&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Job-Board-System/Job Board System/JBS/pom.xml&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -126,7 +101,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-22-openjdk-22-4caba194b151-f504ca98" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
@@ -145,36 +121,15 @@
       <workItem from="1733165358050" duration="1962000" />
       <workItem from="1734261371588" duration="11000" />
       <workItem from="1734281808805" duration="1840000" />
-      <workItem from="1734283657996" duration="4561000" />
-      <workItem from="1734456814554" duration="169000" />
-      <workItem from="1734456996669" duration="1070000" />
-      <workItem from="1734458079993" duration="218000" />
-      <workItem from="1734458310850" duration="964000" />
-      <workItem from="1734459288952" duration="112000" />
-      <workItem from="1734459403570" duration="247000" />
-      <workItem from="1734459653426" duration="5575000" />
-      <workItem from="1734465851873" duration="108000" />
-      <workItem from="1734514840774" duration="2343000" />
-      <workItem from="1734517203470" duration="5814000" />
-      <workItem from="1734524332504" duration="5744000" />
-      <workItem from="1734632114247" duration="218000" />
-      <workItem from="1734632733051" duration="977000" />
-      <workItem from="1734633721129" duration="10663000" />
-      <workItem from="1734644880079" duration="151000" />
-      <workItem from="1734645042720" duration="1129000" />
-      <workItem from="1734778657307" duration="9862000" />
-      <workItem from="1734790175144" duration="9286000" />
-      <workItem from="1734800258598" duration="3096000" />
-      <workItem from="1734804001766" duration="897000" />
-      <workItem from="1734806401688" duration="3296000" />
+      <workItem from="1734283657996" duration="4782000" />
+      <workItem from="1734808226674" duration="58000" />
+      <workItem from="1734808305523" duration="2000" />
+      <workItem from="1734808326804" duration="675000" />
+      <workItem from="1734809651217" duration="1230000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>

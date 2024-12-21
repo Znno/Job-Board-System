@@ -100,19 +100,21 @@ public class EPJobListPage extends Application {
                 updateButton.setOnAction(e -> {
                     System.out.println("Update job: " + jobId);
 
-                        primaryStage.fireEvent(
-                                new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
-                        );
+                    primaryStage.fireEvent(
+                            new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                    );
 
                     try {
                         Stage stage = new Stage();
-                        new EPupdateJob(jobId).start(stage );
+                        new EPupdateJob(jobId).start(stage);
                         primaryStage.hide();
-                        stage.setOnCloseRequest(event -> primaryStage.show());
+                        stage.setOnCloseRequest(event -> {
+                            primaryStage.show();
+                            loadJobsFromDatabase(jobListView, primaryStage); // Refresh the job list
+                        });
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-
                 });
 
                 deleteButton.setOnAction(e -> {
