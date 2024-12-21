@@ -24,7 +24,10 @@ public class AddJobPage extends Application {
     public AddJobPage(int id, Stage test,String username) {
         employerId = id;
         this.username=username;
-        test.close();
+            test.fireEvent(
+                    new javafx.stage.WindowEvent(test, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+
     }
 
     @Override
@@ -86,7 +89,10 @@ public class AddJobPage extends Application {
                     }
 
                 primaryStage.close();
-                new EPJobListPage(getUserIdByUsername(username),username).start(new Stage());
+                    Stage jobListStage = new Stage();
+                new EPJobListPage(getUserIdByUsername(username),username).start(jobListStage);
+                primaryStage.hide();
+                jobListStage.setOnCloseRequest(event -> primaryStage.show());
 
             }
         });

@@ -39,7 +39,10 @@ public class EPJobListPage extends Application {
         layout.getChildren().addAll(new Label("Job List"), jobListView, addJobButton);
 
         addJobButton.setOnAction(e -> {
-            new AddJobPage(employer_id ,primaryStage, username ).start(new Stage());
+            Stage stage = new Stage();
+            new AddJobPage(employer_id ,primaryStage, username ).start(stage);
+            primaryStage.hide();
+            stage.setOnCloseRequest(event -> primaryStage.show());
         });
         Scene scene = new Scene(layout, 400, 300);
         primaryStage.setScene(scene);
@@ -79,9 +82,15 @@ public class EPJobListPage extends Application {
 
                 applicationsButton.setOnAction(e -> {
                     System.out.println("Applications job: " + title);
-                    primaryStage.close();
+
+                        primaryStage.fireEvent(
+                                new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                        );
                     try {
-                        new EPapplications(employer_id).start(new Stage());
+                        Stage stage = new Stage();
+                        new EPapplications(employer_id).start(stage);
+                        primaryStage.hide();
+                        stage.setOnCloseRequest(event -> primaryStage.show());
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -90,9 +99,16 @@ public class EPJobListPage extends Application {
 
                 updateButton.setOnAction(e -> {
                     System.out.println("Update job: " + jobId);
-                    primaryStage.close();
+
+                        primaryStage.fireEvent(
+                                new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                        );
+
                     try {
-                        new EPupdateJob(jobId).start(new Stage());
+                        Stage stage = new Stage();
+                        new EPupdateJob(jobId).start(stage );
+                        primaryStage.hide();
+                        stage.setOnCloseRequest(event -> primaryStage.show());
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }

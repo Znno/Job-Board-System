@@ -38,8 +38,8 @@ public class LoginForm extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
-        stage.setTitle("Login Form");
+    public void start(Stage primarystage) {
+        primarystage.setTitle("Login Form");
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10));
@@ -78,11 +78,21 @@ public class LoginForm extends Application {
             String type = get_type(username);
 
             if(type.equals("jobSeeker")) {
-                new JobSeekerPage(username).start(new Stage());
+                Stage stage = new Stage();
+                new JobSeekerPage(username).start(stage);
+                primarystage.hide();
+                stage.setOnCloseRequest(event -> primarystage.show());
+
             } else if(type.equals("employer")) {
-                new EmployerPage(username).start(new Stage());
+                Stage stage = new Stage();
+                new EmployerPage(username).start(stage);
+                primarystage.hide();
+                stage.setOnCloseRequest(event -> primarystage.show());
             } else if(type.equals("admin")) {
-                new AdminPage().start(new Stage());
+                Stage stage = new Stage();
+                new AdminPage().start(stage);
+                primarystage.hide();
+                stage.setOnCloseRequest(event -> primarystage.show());
             }
 
         });
@@ -95,8 +105,8 @@ public class LoginForm extends Application {
         grid.add(statusLabel, 1, 2);
 
         Scene scene = new Scene(grid, 300, 200);
-        stage.setScene(scene);
-        stage.show();
+        primarystage.setScene(scene);
+        primarystage.show();
     }
     /*
         * This method validates the login credentials

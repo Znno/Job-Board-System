@@ -51,7 +51,11 @@ public class ViewProfile extends Application {
         saveButton.setOnAction(e -> saveProfileChanges(nameField.getText(), emailField.getText(), locationField.getText(),
                 bioArea.getText(), skillsArea.getText(), experienceArea.getText(), educationArea.getText()));
 
-        cancelButton.setOnAction(e -> primaryStage.close());  // Close the window on cancel
+        cancelButton.setOnAction(e -> {
+            primaryStage.fireEvent(
+                    new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+        });
 
 
         fetchProfileData(userId, nameField, emailField, locationField, bioArea, skillsArea, experienceArea, educationArea);

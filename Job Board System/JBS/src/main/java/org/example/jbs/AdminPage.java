@@ -17,10 +17,16 @@ public class AdminPage extends Application {
         layout.getChildren().addAll(UserButton , PostsButton);
 
         UserButton.setOnAction(e -> {
-            new manageUser().start(new Stage());
+            Stage stage = new Stage();
+            new manageUser().start(stage);
+            primaryStage.hide();
+            stage.setOnCloseRequest(event -> primaryStage.show());
         });
         PostsButton.setOnAction(e -> {
-            new managePosts().start(new Stage());
+            Stage stage = new Stage();
+            new managePosts().start(stage);
+            primaryStage.hide();
+            stage.setOnCloseRequest(event -> primaryStage.show());
         });
 
         Scene scene = new Scene(layout, 300, 200);

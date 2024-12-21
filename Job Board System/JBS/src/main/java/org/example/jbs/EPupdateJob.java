@@ -38,8 +38,11 @@ public class EPupdateJob extends Application {
         updateButton.setOnAction(e -> saveJobChanges(titleField.getText(), descriptionField.getText(), requirementsField.getText()));
 
         // Cancel button action
-        cancelButton.setOnAction(e -> primaryStage.close());
-
+        cancelButton.setOnAction(e -> {
+            primaryStage.fireEvent(
+                    new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+        });
         // Fetch job data based on jobId
         fetchJobData(jobId, titleField, descriptionField, requirementsField);
 

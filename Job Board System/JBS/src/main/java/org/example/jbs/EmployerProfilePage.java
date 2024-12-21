@@ -12,9 +12,11 @@ import java.sql.*;
 
 public class EmployerProfilePage extends Application {
     int userId;
+
     public EmployerProfilePage(int userId) {
         this.userId = userId;
     }
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Employer Profile");
@@ -30,22 +32,26 @@ public class EmployerProfilePage extends Application {
 
         Label historyLabel = new Label("History");
         TextArea historyArea = new TextArea();
-        
+
         Button saveButton = new Button("Save Changes");
         Button cancelButton = new Button("Cancel");
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
         layout.getChildren().addAll(nameLabel, nameField, companyNameLabel, companyNameField, locationLabel, locationField,
-                historyLabel, historyArea , saveButton, cancelButton);
+                historyLabel, historyArea, saveButton, cancelButton);
 
-        saveButton.setOnAction(e -> saveProfileChanges(nameField.getText(), companyNameField.getText(), locationField.getText(),
-                historyArea.getText()));
+        saveButton.setOnAction(e -> {
+            saveProfileChanges(nameField.getText(), companyNameField.getText(), locationField.getText(),
+                    historyArea.getText());
+        });
+        cancelButton.setOnAction(e -> {
+            primaryStage.fireEvent(
+                    new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+        });
 
-        cancelButton.setOnAction(e -> primaryStage.close());
-
-
-        fetchProfileData(userId, nameField, companyNameField, locationField, historyArea );
+        fetchProfileData(userId, nameField, companyNameField, locationField, historyArea);
 
         Scene scene = new Scene(layout, 600, 700);
         primaryStage.setScene(scene);
@@ -81,7 +87,6 @@ public class EmployerProfilePage extends Application {
             e.printStackTrace();
         }
     }
-
 
 
     private void saveProfileChanges(String name, String companyName, String location, String history) {

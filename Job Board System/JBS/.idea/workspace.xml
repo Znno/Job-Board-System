@@ -6,7 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="3a005be1-75cb-4cd4-9d29-c655743805aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/AddJobPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/AddJobPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/AdminPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/AdminPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ApplyForJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ApplyForJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPJobListPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPJobListPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPupdateJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPupdateJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/JobSeekerPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/JobSeekerPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/managePosts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/managePosts.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,8 +126,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19416.15" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19416.15" />
+        <option value="jdk-22-openjdk-22-4caba194b151-f504ca98" />
       </set>
     </attachedChunks>
   </component>
@@ -155,6 +166,7 @@
       <workItem from="1734790175144" duration="9286000" />
       <workItem from="1734800258598" duration="3096000" />
       <workItem from="1734804001766" duration="897000" />
+      <workItem from="1734806401688" duration="3296000" />
     </task>
     <servers />
   </component>

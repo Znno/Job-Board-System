@@ -30,7 +30,7 @@ public ViewJobList(int user_id)
 
         ListView<HBox> jobListView = new ListView<>();
 
-        loadJobsFromDatabase(jobListView);
+        loadJobsFromDatabase(jobListView,jobStage);
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(15));
@@ -41,7 +41,7 @@ public ViewJobList(int user_id)
         jobStage.show();
     }
 
-    private void loadJobsFromDatabase(ListView<HBox> jobListView) {
+    private void loadJobsFromDatabase(ListView<HBox> jobListView,Stage jobstage) {
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
@@ -61,7 +61,11 @@ public ViewJobList(int user_id)
                 Button viewButton = new Button("View");
 
                 viewButton.setOnAction(e -> {
-                    new ViewJobDetails(title, description, requirements, employer_id, user_id).start(new Stage());
+                    Stage jobDetailStage = new Stage();
+                    new ViewJobDetails(title, description, requirements, employer_id, user_id).start(jobDetailStage);
+                    jobstage.hide();
+                    jobDetailStage.setOnCloseRequest(event -> jobstage.show());
+
                 });
 
                 HBox jobEntry = new HBox(10);

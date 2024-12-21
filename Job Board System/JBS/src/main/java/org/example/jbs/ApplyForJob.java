@@ -51,7 +51,11 @@ public class ApplyForJob
             System.out.println("No file selected.");
         }
 
-        primaryStage.close();
+
+            primaryStage.fireEvent(
+                    new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+
     }
 
     private void uploadCVToDatabase(File file, int userId, int employerId, String state) {

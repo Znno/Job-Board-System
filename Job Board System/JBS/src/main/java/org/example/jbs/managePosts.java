@@ -159,8 +159,12 @@ public class managePosts extends Application {
             job.setRequirements(requirementsField.getText());
             updateJob(job);
             loadJobs();
-            editStage.close();
-        });
+            //editStage.close();
+                editStage.fireEvent(
+                        new javafx.stage.WindowEvent(editStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                );
+            });
+
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10));

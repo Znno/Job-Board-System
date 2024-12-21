@@ -67,15 +67,24 @@ public class EmployerPage extends Application {
         layout.getChildren().addAll(logoutButton, profileButton, viewJobsButton);
 
         logoutButton.setOnAction(e -> {
-            primaryStage.close();
-        });
+
+                primaryStage.fireEvent(
+                        new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                );
+            });
 
         profileButton.setOnAction(e -> {
-            new EmployerProfilePage(getUserIdByUsername(username)).start(new Stage());
+            Stage stage=new Stage();
+            new EmployerProfilePage(getUserIdByUsername(username)).start(stage);
+            primaryStage.hide();
+            stage.setOnCloseRequest(event -> primaryStage.show());
         });
 
         viewJobsButton.setOnAction(e -> {
-            new EPJobListPage(getUserIdByUsername(username),username).start(new Stage());
+            Stage stage=new Stage();
+            new EPJobListPage(getUserIdByUsername(username),username).start(stage);
+            primaryStage.hide();
+            stage.setOnCloseRequest(event -> primaryStage.show());
         });
 
     }

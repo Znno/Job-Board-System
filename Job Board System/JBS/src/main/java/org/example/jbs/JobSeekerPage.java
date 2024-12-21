@@ -11,10 +11,11 @@ import java.sql.*;
 
 public class JobSeekerPage extends Application {
     String username;
-    public JobSeekerPage(String username)
-    {
-        this.username=username;
+
+    public JobSeekerPage(String username) {
+        this.username = username;
     }
+
     public static int getUserIdByUsername(String username) {
         int userId = -1;
 
@@ -41,6 +42,7 @@ public class JobSeekerPage extends Application {
 
         return userId;
     }
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Job Seeker Page");
@@ -60,16 +62,33 @@ public class JobSeekerPage extends Application {
         layout.getChildren().addAll(logoutButton, profileButton, viewJobsButton);
 
         logoutButton.setOnAction(e -> {
-            primaryStage.close();
+            primaryStage.fireEvent(
+                    new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
         });
 
         profileButton.setOnAction(e -> {
-            new JSProfilePage().start(new Stage());
+            Stage stage = new Stage();
+            new JSProfilePage().start(stage);
+            primaryStage.hide();
+            stage.setOnCloseRequest(event -> primaryStage.show());
         });
-        int user_id=getUserIdByUsername(username);
-        profileButton.setOnAction(e -> new ViewProfile(user_id).start(new Stage()));
-        viewJobsButton.setOnAction(e -> new ViewJobList(user_id).start(new Stage()));
+        int user_id = getUserIdByUsername(username);
 
+        profileButton.setOnAction(e -> {
+            Stage prfileStage = new Stage();
+            new ViewProfile(user_id).start(prfileStage);
+            primaryStage.hide();
+            prfileStage.setOnCloseRequest(event -> primaryStage.show());
+        });
+
+
+        viewJobsButton.setOnAction(e -> {
+            Stage stage = new Stage();
+            new ViewJobList(user_id).start(stage);
+            primaryStage.hide();
+            stage.setOnCloseRequest(event -> primaryStage.show());
+        });
 
 
     }
