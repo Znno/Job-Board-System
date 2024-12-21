@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a005be1-75cb-4cd4-9d29-c655743805aa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/Applicant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPapplications.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPupdateJob.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/AddJobPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/AddJobPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPJobListPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EPJobListPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/SignUpForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/SignUpForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/manageUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/manageUser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +35,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -34,6 +46,9 @@
         <option name="showDialogWithAdvancedSettings" value="true" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -58,7 +73,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/javafx-sdk-23.0.1/lib&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/3TH/Software Engineer/Job-Board-System/Job Board System/JBS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -105,14 +120,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19416.15" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19416.15" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -145,6 +152,9 @@
       <workItem from="1734633721129" duration="10663000" />
       <workItem from="1734644880079" duration="151000" />
       <workItem from="1734645042720" duration="1129000" />
+      <workItem from="1734778657307" duration="9862000" />
+      <workItem from="1734790175144" duration="9286000" />
+      <workItem from="1734800258598" duration="3096000" />
     </task>
     <servers />
   </component>

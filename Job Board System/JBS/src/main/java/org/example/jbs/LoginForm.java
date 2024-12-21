@@ -80,7 +80,7 @@ public class LoginForm extends Application {
             if(type.equals("jobSeeker")) {
                 new JobSeekerPage(username).start(new Stage());
             } else if(type.equals("employer")) {
-                new EmployerPage().start(new Stage());
+                new EmployerPage(username).start(new Stage());
             } else if(type.equals("admin")) {
                 new AdminPage().start(new Stage());
             }

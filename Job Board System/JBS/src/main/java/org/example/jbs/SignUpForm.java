@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.regex.Pattern;
 
-public class SignUpForm extends Application {
+public class    SignUpForm extends Application {
     public static boolean patternMatches(String emailAddress, String regexPattern) {
         return Pattern.compile(regexPattern)
                 .matcher(emailAddress)
@@ -115,14 +115,13 @@ public class SignUpForm extends Application {
 
                 // Insert into employer or jobseeker_profile table based on role
                 if ("employer".equals(role)) {
-                    String query2 = "INSERT INTO employer (user_id, name, companyName, location, history, bio) VALUES (?, ?, ?, ?, ?, ?)";
+                    String query2 = "INSERT INTO employer (user_id, name, companyName, location, history) VALUES (?, ?, ?, ?, ?)";
                     PreparedStatement stmt2 = conn.prepareStatement(query2);
                     stmt2.setInt(1, userId);
                     stmt2.setString(2, username);
                     stmt2.setString(3, "companyName");
                     stmt2.setString(4, "location");
                     stmt2.setString(5, "history");
-                    stmt2.setString(6, "bio");
                     stmt2.executeUpdate();
                 } else if ("jobSeeker".equals(role)) {
                     String query3 = "INSERT INTO jobseeker_profile (user_id, name, email, location, bio, skills, experience, education) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

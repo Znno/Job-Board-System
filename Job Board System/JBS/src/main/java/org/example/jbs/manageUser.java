@@ -179,6 +179,8 @@ public class manageUser extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        table = new TableView<>(); // Initialize the table here
+
         primaryStage.setTitle("Manage User");
 
         GridPane grid = new GridPane();
@@ -196,37 +198,33 @@ public class manageUser extends Application {
         Label statusLabel = new Label();
 
         deleteButton.setOnAction(e -> {
-            if(deleteUser(userField.getText())) {
+            if (deleteUser(userField.getText())) {
                 statusLabel.setText("User deleted.");
                 refreshTable();
-            }
-            else {
+            } else {
                 statusLabel.setText("User not found.");
             }
         });
 
         activateButton.setOnAction(e -> {
-            if(updateUserStatus(userField.getText(), true)) {
+            if (updateUserStatus(userField.getText(), true)) {
                 statusLabel.setText("User activated.");
                 refreshTable();
-            }
-            else {
+            } else {
                 statusLabel.setText("User not found.");
             }
         });
 
         deactivateButton.setOnAction(e -> {
-            if(updateUserStatus(userField.getText(), false)) {
+            if (updateUserStatus(userField.getText(), false)) {
                 statusLabel.setText("User deactivated.");
                 refreshTable();
-            }
-            else{
+            } else {
                 statusLabel.setText("User not found.");
             }
         });
 
         viewAllButton.setOnAction(e -> {
-            table = new TableView<>();
             users = getAllUsers();
 
             TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
@@ -261,7 +259,7 @@ public class manageUser extends Application {
             });
 
             table.setItems(users);
-            table.getColumns().addAll(usernameColumn, passwordColumn, userTypeColumn, actionColumn);
+            table.getColumns().setAll(usernameColumn, passwordColumn, userTypeColumn, actionColumn);
 
             VBox vbox = new VBox(table);
             Scene scene = new Scene(vbox);
