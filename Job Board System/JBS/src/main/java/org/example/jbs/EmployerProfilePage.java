@@ -62,7 +62,7 @@ public class EmployerProfilePage extends Application {
                                   TextArea historyArea) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
-            String sql = "SELECT * FROM employer WHERE user_id = ?";
+            String sql = "SELECT * FROM employer WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
@@ -74,7 +74,7 @@ public class EmployerProfilePage extends Application {
                 historyArea.setText(rs.getString("history"));
 
             } else {
-                String insertSql = "INSERT INTO employer ( user_id ,name,companyName,  location, history) " +
+                String insertSql = "INSERT INTO employer ( id ,name,companyName,  location, history) " +
                         "VALUES (?,'','', '', '')";
                 PreparedStatement insertStmt = conn.prepareStatement(insertSql);
                 insertStmt.setInt(1, userId);
@@ -92,7 +92,7 @@ public class EmployerProfilePage extends Application {
     private void saveProfileChanges(String name, String companyName, String location, String history) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
-            String sql = "UPDATE employer SET name = ?, companyName = ?, location = ?, history = ? WHERE user_id = ?";
+            String sql = "UPDATE employer SET name = ?, companyName = ?, location = ?, history = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, name);
             stmt.setString(2, companyName);
