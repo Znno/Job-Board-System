@@ -44,7 +44,7 @@ public class EPJobListPage extends Application {
             primaryStage.hide();
             stage.setOnCloseRequest(event -> primaryStage.show());
         });
-        Scene scene = new Scene(layout, 400, 300);
+        Scene scene = new Scene(layout, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

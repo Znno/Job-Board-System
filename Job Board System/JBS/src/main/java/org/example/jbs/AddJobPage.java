@@ -100,7 +100,7 @@ public class AddJobPage extends Application {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(titleLabel, titleField, descriptionLabel, descriptionField, requirementsLabel, requirementsField, submitButton);
 
-        Scene scene = new Scene(layout, 300, 250);
+        Scene scene = new Scene(layout, 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

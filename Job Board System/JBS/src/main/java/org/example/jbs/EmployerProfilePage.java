@@ -60,8 +60,8 @@ public class EmployerProfilePage extends Application {
 
     private void fetchProfileData(int userId, TextField nameField, TextField companyNameField, TextField locationField,
                                   TextArea historyArea) {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "")){
+
             String sql = "SELECT * FROM employer WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, userId);
@@ -86,6 +86,8 @@ public class EmployerProfilePage extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
     }
 
 
