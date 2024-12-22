@@ -48,15 +48,23 @@ public class ViewProfile extends Application {
         layout.getChildren().addAll(nameLabel, nameField, emailLabel, emailField, locationLabel, locationField,
                 bioLabel, bioArea, skillsLabel, skillsArea, experienceLabel, experienceArea, educationLabel, educationArea, saveButton, cancelButton);
 
-        saveButton.setOnAction(e -> saveProfileChanges(nameField.getText(), emailField.getText(), locationField.getText(),
-                bioArea.getText(), skillsArea.getText(), experienceArea.getText(), educationArea.getText()));
+        saveButton.setOnAction(e -> {
+            if (isValidEmail(emailField.getText())) {
+                saveProfileChanges(nameField.getText(), emailField.getText(), locationField.getText(),
+                        bioArea.getText(), skillsArea.getText(), experienceArea.getText(), educationArea.getText());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Email");
+                alert.setContentText("Please enter a valid email address.");
+                alert.showAndWait();
+            }
+        });
 
         cancelButton.setOnAction(e -> {
             primaryStage.fireEvent(
                     new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
             );
         });
-
 
         fetchProfileData(userId, nameField, emailField, locationField, bioArea, skillsArea, experienceArea, educationArea);
 
@@ -95,8 +103,6 @@ public class ViewProfile extends Application {
         }
     }
 
-
-
     private void saveProfileChanges(String name, String email, String location, String bio, String skills,
                                     String experience, String education) {
         try {
@@ -122,6 +128,11 @@ public class ViewProfile extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email.matches(emailRegex);
     }
 
     public static void main(String[] args) {
