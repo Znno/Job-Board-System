@@ -80,6 +80,9 @@ public class manageUser extends Application {
              PreparedStatement deleteEmployerStmt = conn.prepareStatement(deleteEmployerSql);
              PreparedStatement deleteJobSeekerStmt = conn.prepareStatement(deleteJobSeekerSql)) {
 
+            // Start transaction
+            conn.setAutoCommit(false);
+
             // Get the user ID and role
             getUserIdStmt.setString(1, username);
             ResultSet rsUser = getUserIdStmt.executeQuery();
@@ -89,38 +92,34 @@ public class manageUser extends Application {
 
                 if ("employer".equals(userType)) {
                     // Delete applications related to the employer
-                    String getempolyerid = "SELECT id FROM employer WHERE name = ?";
-                    PreparedStatement getempolyeridstmt = conn.prepareStatement(getempolyerid);
-                    getempolyeridstmt.setString(1, username);
-                    ResultSet rs = getempolyeridstmt.executeQuery();
-                    if(rs.next()){
-                        int employer_id = rs.getInt("id");
-                        deleteApplicationsByEmployerStmt.setInt(1, employer_id);
+                    String getEmployerId = "SELECT id FROM employer WHERE name = ?";
+                    PreparedStatement getEmployerIdStmt = conn.prepareStatement(getEmployerId);
+                    getEmployerIdStmt.setString(1, username);
+                    ResultSet rs = getEmployerIdStmt.executeQuery();
+                    if (rs.next()) {
+                        int employerId = rs.getInt("id");
+                        deleteApplicationsByEmployerStmt.setInt(1, employerId);
                         deleteApplicationsByEmployerStmt.executeUpdate();
                         // Delete jobs related to the employer
-                        deleteJobsStmt.setInt(1, employer_id);
+                        deleteJobsStmt.setInt(1, employerId);
                         deleteJobsStmt.executeUpdate();
                     }
-
-
-
 
                     // Delete the employer from the employer table
                     deleteEmployerStmt.setString(1, username);
                     deleteEmployerStmt.executeUpdate();
                 } else if ("jobSeeker".equals(userType)) {
                     // Delete applications related to the jobseeker
-                    String getjobseekerid = "SELECT id FROM jobseeker_profile WHERE name = ?";
-                    PreparedStatement getjobseekeridstmt = conn.prepareStatement(getjobseekerid);
-                    getjobseekeridstmt.setString(1, username);
-                    ResultSet rs = getjobseekeridstmt.executeQuery();
+                    String getJobSeekerId = "SELECT id FROM jobseeker_profile WHERE name = ?";
+                    PreparedStatement getJobSeekerIdStmt = conn.prepareStatement(getJobSeekerId);
+                    getJobSeekerIdStmt.setString(1, username);
+                    ResultSet rs = getJobSeekerIdStmt.executeQuery();
 
-                    if(rs.next()) {
-                        int jobseeker_id = rs.getInt("id");
-                        deleteApplicationsByUserStmt.setInt(1, jobseeker_id);
+                    if (rs.next()) {
+                        int jobSeekerId = rs.getInt("id");
+                        deleteApplicationsByUserStmt.setInt(1, jobSeekerId);
                         deleteApplicationsByUserStmt.executeUpdate();
                     }
-
 
                     // Delete the jobseeker from the jobseeker table
                     deleteJobSeekerStmt.setString(1, username);
@@ -135,10 +134,20 @@ public class manageUser extends Application {
                 } else {
                     System.out.println("User not found.");
                 }
-                return rowsAffected>0;
+
+                // Commit transaction
+                conn.commit();
+                return rowsAffected > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            try (Connection conn = connect()) {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
         }
         return false;
     }

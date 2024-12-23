@@ -22,17 +22,8 @@ public class ViewProfile extends Application {
         Label nameLabel = new Label("Name:");
         TextField nameField = new TextField();
 
-        Label emailLabel = new Label("Email:");
-        TextField emailField = new TextField();
-
         Label locationLabel = new Label("Location:");
         TextField locationField = new TextField();
-
-        Label bioLabel = new Label("Bio:");
-        TextArea bioArea = new TextArea();
-
-        Label skillsLabel = new Label("Skills:");
-        TextArea skillsArea = new TextArea();
 
         Label experienceLabel = new Label("Experience:");
         TextArea experienceArea = new TextArea();
@@ -45,17 +36,16 @@ public class ViewProfile extends Application {
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
-        layout.getChildren().addAll(nameLabel, nameField, emailLabel, emailField, locationLabel, locationField,
-                bioLabel, bioArea, skillsLabel, skillsArea, experienceLabel, experienceArea, educationLabel, educationArea, saveButton, cancelButton);
+        layout.getChildren().addAll(nameLabel, nameField, locationLabel, locationField,
+                 experienceLabel, experienceArea, educationLabel, educationArea, saveButton, cancelButton);
 
         saveButton.setOnAction(e -> {
-            if (isValidEmail(emailField.getText())) {
-                saveProfileChanges(nameField.getText(), emailField.getText(), locationField.getText(),
-                        bioArea.getText(), skillsArea.getText(), experienceArea.getText(), educationArea.getText());
+            if (isValidName(nameField.getText())) {
+                saveProfileChanges(nameField.getText(), locationField.getText(),experienceArea.getText(), educationArea.getText());
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Invalid Email");
-                alert.setContentText("Please enter a valid email address.");
+                alert.setTitle("Taken name");
+                alert.setContentText("Please enter another name.");
                 alert.showAndWait();
             }
         });
@@ -66,15 +56,15 @@ public class ViewProfile extends Application {
             );
         });
 
-        fetchProfileData(userId, nameField, emailField, locationField, bioArea, skillsArea, experienceArea, educationArea);
+        fetchProfileData(userId, nameField, locationField, experienceArea, educationArea);
 
         Scene scene = new Scene(layout, 600, 700);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void fetchProfileData(int userId, TextField nameField, TextField emailField, TextField locationField,
-                                  TextArea bioArea, TextArea skillsArea, TextArea experienceArea, TextArea educationArea) {
+    private void fetchProfileData(int userId, TextField nameField, TextField locationField,
+                                   TextArea experienceArea, TextArea educationArea) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
             String sql = "SELECT * FROM jobseeker_profile WHERE user_id = ?";
@@ -84,15 +74,12 @@ public class ViewProfile extends Application {
 
             if (rs.next()) {
                 nameField.setText(rs.getString("name"));
-                emailField.setText(rs.getString("email"));
                 locationField.setText(rs.getString("location"));
-                bioArea.setText(rs.getString("bio"));
-                skillsArea.setText(rs.getString("skills"));
                 experienceArea.setText(rs.getString("experience"));
                 educationArea.setText(rs.getString("education"));
             } else {
-                String insertSql = "INSERT INTO jobseeker_profile (user_id, name, email, location, bio, skills, experience, education) " +
-                        "VALUES (?, '', '', '', '', '', '', '')";
+                String insertSql = "INSERT INTO jobseeker_profile (user_id, name, location, experience, education) " +
+                        "VALUES (?, '', '', '', '')";
                 PreparedStatement insertStmt = conn.prepareStatement(insertSql);
                 insertStmt.setInt(1, userId);
                 insertStmt.executeUpdate();
@@ -103,36 +90,50 @@ public class ViewProfile extends Application {
         }
     }
 
-    private void saveProfileChanges(String name, String email, String location, String bio, String skills,
+    private void saveProfileChanges(String name, String location,
                                     String experience, String education) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
-            String sql = "UPDATE jobseeker_profile SET name = ?, email = ?, location = ?, bio = ?, skills = ?, " +
+            String sql = "UPDATE jobseeker_profile SET name = ?, location = ?, " +
                     "experience = ?, education = ?, date_updated = CURRENT_TIMESTAMP WHERE user_id = ?";
+            String sql2 = "UPDATE users SET userName = ? WHERE userID = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, name);
-            stmt.setString(2, email);
-            stmt.setString(3, location);
-            stmt.setString(4, bio);
-            stmt.setString(5, skills);
-            stmt.setString(6, experience);
-            stmt.setString(7, education);
-            stmt.setInt(8, userId);
+            PreparedStatement stmt2 = conn.prepareStatement(sql2);
 
+            stmt.setString(1, name);
+            stmt.setString(2, location);
+            stmt.setString(3, experience);
+            stmt.setString(4, education);
+            stmt.setInt(5, userId);
+            stmt2.setString(1, name);
+            stmt2.setInt(2, userId);
+            conn.setAutoCommit(false);
             int rowsUpdated = stmt.executeUpdate();
-            if (rowsUpdated > 0) {
+            int rowsUpdated2 = stmt2.executeUpdate();
+            if (rowsUpdated > 0&&rowsUpdated2>0) {
                 System.out.println("Profile updated successfully!");
             } else {
                 System.out.println("Profile update failed!");
             }
+            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        return email.matches(emailRegex);
+    private boolean isValidName(String name) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "")){
+
+            String sql = "SELECT * FROM jobseeker_profile WHERE name = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            return !rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public static void main(String[] args) {

@@ -57,6 +57,7 @@ public class LoginForm extends Application {
         loginButton.setOnAction(e -> {
             String username = userField.getText();
             String password = passField.getText();
+            password=DoubleHashing.doubleHash(password);
             username=username.trim();
             if (username.isEmpty() || password.isEmpty()) {
                 statusLabel.setText("All fields are required!");
@@ -64,6 +65,25 @@ public class LoginForm extends Application {
             else if (validateLogin(username, password)==1) {
 
                 statusLabel.setText("Login successful!");
+                String type = get_type(username);
+
+                if(type.equals("jobSeeker")) {
+                    Stage stage = new Stage();
+                    new JobSeekerPage(username).start(stage);
+                    primarystage.hide();
+                    stage.setOnCloseRequest(event -> primarystage.show());
+
+                } else if(type.equals("employer")) {
+                    Stage stage = new Stage();
+                    new EmployerPage(username).start(stage);
+                    primarystage.hide();
+                    stage.setOnCloseRequest(event -> primarystage.show());
+                } else if(type.equals("admin")) {
+                    Stage stage = new Stage();
+                    new AdminPage().start(stage);
+                    primarystage.hide();
+                    stage.setOnCloseRequest(event -> primarystage.show());
+                }
             }
             else if(validateLogin(username, password)==0){
                 statusLabel.setText("User is not activated.");
@@ -75,25 +95,7 @@ public class LoginForm extends Application {
             else if(validateLogin(username, password)==-2){
                 statusLabel.setText("Error occurred.");
             }
-            String type = get_type(username);
 
-            if(type.equals("jobSeeker")) {
-                Stage stage = new Stage();
-                new JobSeekerPage(username).start(stage);
-                primarystage.hide();
-                stage.setOnCloseRequest(event -> primarystage.show());
-
-            } else if(type.equals("employer")) {
-                Stage stage = new Stage();
-                new EmployerPage(username).start(stage);
-                primarystage.hide();
-                stage.setOnCloseRequest(event -> primarystage.show());
-            } else if(type.equals("admin")) {
-                Stage stage = new Stage();
-                new AdminPage().start(stage);
-                primarystage.hide();
-                stage.setOnCloseRequest(event -> primarystage.show());
-            }
 
         });
 

@@ -58,6 +58,7 @@ public class    SignUpForm extends Application {
         signUpButton.setOnAction(e -> {
             String username = userField.getText();
             String password = passField.getText();
+            password=DoubleHashing.doubleHash(password);
             String email = emailField.getText();
             String role = roleComboBox.getValue();
             username = username.trim();
@@ -107,7 +108,7 @@ public class    SignUpForm extends Application {
             stmt.setString(3, email);
             stmt.setString(4, role);
             stmt.executeUpdate();
-
+            conn.setAutoCommit(false);
             // Retrieve the generated user ID
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -115,27 +116,24 @@ public class    SignUpForm extends Application {
 
                 // Insert into employer or jobseeker_profile table based on role
                 if ("employer".equals(role)) {
-                    String query2 = "INSERT INTO employer (user_id, name, companyName, location, history) VALUES (?, ?, ?, ?, ?)";
+                    String query2 = "INSERT INTO employer (user_id, name, companyName, history) VALUES (?, ?, ?, ?)";
                     PreparedStatement stmt2 = conn.prepareStatement(query2);
                     stmt2.setInt(1, userId);
                     stmt2.setString(2, username);
                     stmt2.setString(3, "companyName");
-                    stmt2.setString(4, "location");
-                    stmt2.setString(5, "history");
+                    stmt2.setString(4, "history");
                     stmt2.executeUpdate();
                 } else if ("jobSeeker".equals(role)) {
-                    String query3 = "INSERT INTO jobseeker_profile (user_id, name, email, location, bio, skills, experience, education) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    String query3 = "INSERT INTO jobseeker_profile (user_id, name, location, experience, education) VALUES (?, ?, ?, ?, ?)";
                     PreparedStatement stmt3 = conn.prepareStatement(query3);
                     stmt3.setInt(1, userId);
                     stmt3.setString(2, username);
-                    stmt3.setString(3, email);
-                    stmt3.setString(4, "location");
-                    stmt3.setString(5, "bio");
-                    stmt3.setString(6, "skills");
-                    stmt3.setString(7, "experience");
-                    stmt3.setString(8, "education");
+                    stmt3.setString(3, "location");
+                    stmt3.setString(4, "experience");
+                    stmt3.setString(5, "education");
                     stmt3.executeUpdate();
                 }
+                conn.commit();
                 return true;
             } else {
                 throw new SQLException("Failed to retrieve user ID.");
