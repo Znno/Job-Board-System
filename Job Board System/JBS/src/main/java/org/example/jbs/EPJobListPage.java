@@ -49,6 +49,8 @@ public class EPJobListPage extends Application {
             new AddJobPage(employer_id ,primaryStage, username ).start(stage);
             primaryStage.hide();
             stage.setOnCloseRequest(event -> primaryStage.show());
+
+
         });
         Scene scene = new Scene(layout, 800, 500);
         primaryStage.setScene(scene);
@@ -59,7 +61,7 @@ public class EPJobListPage extends Application {
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
-        String query = "SELECT id, title, description, requirements FROM jobs WHERE employer_id = ?";
+        String query = "SELECT id, title, description, requirements, location FROM jobs WHERE employer_id = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -74,10 +76,12 @@ public class EPJobListPage extends Application {
                 String title = rs.getString("title");
                 String description = rs.getString("description");
                 String requirements = rs.getString("requirements");
+                String location = rs.getString("location");
 
-                Label jobTitleLabel = new Label(title);
+                Label jobTitleLabel = new Label("Title: "+title);
                 Label jobDescriptionLabel = new Label("Description: " + description);
                 Label jobRequirementsLabel = new Label("Requirements: " + requirements);
+                Label jobLocationLabel = new Label("Location: " + location);
 
                 Button applicationsButton = new Button("Applications");
                 Button updateButton = new Button("Update");
@@ -126,7 +130,7 @@ public class EPJobListPage extends Application {
 
                 HBox jobEntry = new HBox(10);
 
-                jobEntry.getChildren().addAll(jobTitleLabel, jobDescriptionLabel, jobRequirementsLabel, spacer, applicationsButton, updateButton, deleteButton);
+                jobEntry.getChildren().addAll(jobTitleLabel, jobDescriptionLabel, jobRequirementsLabel,jobLocationLabel, spacer, applicationsButton, updateButton, deleteButton);
                 jobListView.getItems().add(jobEntry);
             }
 

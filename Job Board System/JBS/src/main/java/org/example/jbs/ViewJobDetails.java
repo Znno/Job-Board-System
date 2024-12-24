@@ -13,17 +13,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class ViewJobDetails {
-    String title, description, requirements;
+    String title, description, requirements, location;
     int employer_id,user_id;
     int job_id;
 
-    public ViewJobDetails(String title, String description,String requirements,int employer_id,int user_id,int job_id) {
+    public ViewJobDetails(String title, String description,String requirements,int employer_id,int user_id,int job_id, String location) {
         this.title = title;
         this.description = description;
         this.requirements = requirements;
         this.employer_id=employer_id;
         this.user_id=user_id;
         this.job_id=job_id;
+        this.location = location;
     }
 
     public void start(Stage jobDetailStage) {
@@ -33,7 +34,8 @@ public class ViewJobDetails {
         jobDetailLayout.getChildren().addAll(
                 new Label("Title: " + title),
                 new Label("Description: " + description),
-                new Label("Requirements: " + requirements)
+                new Label("Requirements: " + requirements),
+                new Label("Location: " + location)
         );
 
         Button applyButton = new Button("Apply");

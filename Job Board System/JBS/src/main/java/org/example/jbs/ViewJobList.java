@@ -58,6 +58,7 @@ public class ViewJobList extends Application {
                 String requirements = rs.getString("requirements");
                 String description = rs.getString("description");
                 int job_id = rs.getInt("id");
+                String location = rs.getString("location");
                 String query1 = "SELECT id FROM jobseeker_profile WHERE user_id=?";
                 PreparedStatement stmt1 = conn.prepareStatement(query1);
                 stmt1.setInt(1, user_id);
@@ -86,7 +87,7 @@ public class ViewJobList extends Application {
                     if (temp.equals("Not Applied")) {
                         System.out.println(user_id);
                         Stage jobDetailStage = new Stage();
-                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id).start(jobDetailStage);
+                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id,location).start(jobDetailStage);
                         jobstage.hide();
 
                         jobDetailStage.setOnCloseRequest(event -> jobstage.show());

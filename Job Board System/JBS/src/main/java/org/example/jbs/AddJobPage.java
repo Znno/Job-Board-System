@@ -43,6 +43,8 @@ public class AddJobPage extends Application {
 
         Label requirementsLabel = new Label("Job Requirements:");
         TextField requirementsField = new TextField();
+        Label locationsLabel = new Label("Location:");
+        TextField locationField = new TextField();
 
         Button submitButton = new Button("Submit");
         Button cancelButton = new Button("Cancel");
@@ -56,6 +58,7 @@ public class AddJobPage extends Application {
             String jobTitle = titleField.getText();
             String jobDescription = descriptionField.getText();
             String jobRequirements = requirementsField.getText();
+            String location=locationField.getText();
 
             // Check if any fields are blank
             if (jobTitle.isEmpty() || jobDescription.isEmpty() || jobRequirements.isEmpty()) {
@@ -72,8 +75,8 @@ public class AddJobPage extends Application {
 
                 // Check if employer_id exists
 
-                    String query = "INSERT INTO jobs (employer_id, title, description, requirements) " +
-                            "VALUES (?, ?, ?, ?)";
+                    String query = "INSERT INTO jobs (employer_id, title, description, requirements, location) " +
+                            "VALUES (?, ?, ?, ?,?)";
 
                     try (Connection conn = DriverManager.getConnection(url, user, password);
                          PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -81,6 +84,8 @@ public class AddJobPage extends Application {
                         stmt.setString(2, jobTitle);
                         stmt.setString(3, jobDescription);
                         stmt.setString(4, jobRequirements);
+                        stmt.setString(5, location);
+
 
                         int rowsInserted = stmt.executeUpdate();
 
@@ -94,17 +99,13 @@ public class AddJobPage extends Application {
                         ex.printStackTrace();
                     }
 
-                primaryStage.close();
-                    Stage jobListStage = new Stage();
-                new EPJobListPage(getUserIdByUsername(username),username).start(jobListStage);
-                primaryStage.hide();
-                jobListStage.setOnCloseRequest(event -> primaryStage.show());
+
 
             }
         });
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(titleLabel, titleField, descriptionLabel, descriptionField, requirementsLabel, requirementsField, submitButton,cancelButton);
+        layout.getChildren().addAll(titleLabel, titleField, descriptionLabel, descriptionField, requirementsLabel, requirementsField,locationsLabel,locationField, submitButton,cancelButton);
 
         Scene scene = new Scene(layout, 400, 400);
         primaryStage.setScene(scene);
