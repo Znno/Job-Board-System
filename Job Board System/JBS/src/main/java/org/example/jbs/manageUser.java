@@ -92,7 +92,7 @@ public class manageUser extends Application {
 
                 if ("employer".equals(userType)) {
                     // Delete applications related to the employer
-                    String getEmployerId = "SELECT id FROM employer WHERE name = ?";
+                    String getEmployerId = "SELECT id FROM employer WHERE user_id = ?";
                     PreparedStatement getEmployerIdStmt = conn.prepareStatement(getEmployerId);
                     getEmployerIdStmt.setString(1, username);
                     ResultSet rs = getEmployerIdStmt.executeQuery();
