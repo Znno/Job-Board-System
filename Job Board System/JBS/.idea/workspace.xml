@@ -6,15 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3a005be1-75cb-4cd4-9d29-c655743805aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ApplyForJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ApplyForJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobDetails.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewJobList.java" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/JSJobListPage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/JSProfilePage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/JobSeekerPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/JobSeekerPage.java" afterDir="false" />
->>>>>>> 89ac6ea22b12b2749900ecee71c0bbd2260a9bb6
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,8 +32,8 @@
     </option>
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
+    &quot;associatedIndex&quot;: 8
+    }</component>
   <component name="ProjectId" id="2pfBnOqzlRFaVb1xKi9Io1V0bzX" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -60,7 +51,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "5c53f441",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "E:/Job-Board-System/Job Board System/JBS/pom.xml",
     "node.js.detected.package.eslint": "true",
@@ -140,11 +131,22 @@
       <workItem from="1734986918785" duration="5259000" />
       <workItem from="1735054192809" duration="1000" />
       <workItem from="1735054202343" duration="335000" />
-      <workItem from="1735055548964" duration="4789000" />
+      <workItem from="1735055548964" duration="2203000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
