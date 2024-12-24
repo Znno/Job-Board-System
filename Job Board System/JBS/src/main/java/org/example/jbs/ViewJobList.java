@@ -19,10 +19,10 @@ import java.sql.ResultSet;
 
 public class ViewJobList extends Application {
     int user_id;
-public ViewJobList(int user_id)
-{
-    this.user_id=user_id;
-}
+
+    public ViewJobList(int user_id) {
+        this.user_id = user_id;
+    }
 
     @Override
     public void start(Stage jobStage) {
@@ -30,7 +30,7 @@ public ViewJobList(int user_id)
 
         ListView<HBox> jobListView = new ListView<>();
 
-        loadJobsFromDatabase(jobListView,jobStage);
+        loadJobsFromDatabase(jobListView, jobStage);
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(15));
@@ -41,11 +41,14 @@ public ViewJobList(int user_id)
         jobStage.show();
     }
 
-    private void loadJobsFromDatabase(ListView<HBox> jobListView,Stage jobstage) {
+
+    private void loadJobsFromDatabase(ListView<HBox> jobListView, Stage jobstage) {
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
-        String query = "SELECT title, description, requirements, employer_id FROM jobs";
+
+        String query = "SELECT title, description, requirements, employer_id,id FROM jobs";
+
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              PreparedStatement stmt = conn.prepareStatement(query);
@@ -56,8 +59,31 @@ public ViewJobList(int user_id)
                 String title = rs.getString("title");
                 String requirements = rs.getString("requirements");
                 String description = rs.getString("description");
+                int job_id=rs.getInt("id");
+                String query1="SELECT id FROM jobseeker_profile WHERE user_id=?";
+                PreparedStatement stmt1=conn.prepareStatement(query1);
+                stmt1.setInt(1,user_id);
+                ResultSet rs1=stmt1.executeQuery();
+                int jobseeker_id=0;
+                if(rs1.next())
+                {
+                    jobseeker_id=rs1.getInt("id");
+                }
+
+                String query2="SELECT state FROM applicants_details WHERE jobseeker_id=? AND job_id=?";
+
+                PreparedStatement stmt2=conn.prepareStatement(query2);
+                stmt2.setInt(1,jobseeker_id);
+                stmt2.setInt(2,job_id);
+                ResultSet rs2=stmt2.executeQuery();
+                String state="Not Applied";
+                if(rs2.next())
+                {
+                    state=rs2.getString("state");
+                }
 
                 Label jobLabel = new Label(title);
+                Label stateLabel = new Label(state);
                 Button viewButton = new Button("View");
 
                 viewButton.setOnAction(e -> {
@@ -72,7 +98,7 @@ public ViewJobList(int user_id)
                 Region spacer = new Region();
                 HBox.setHgrow(spacer, Priority.ALWAYS);
 
-                jobEntry.getChildren().addAll(jobLabel, spacer, viewButton);
+                jobEntry.getChildren().addAll(jobLabel,stateLabel, spacer, viewButton);
                 jobListView.getItems().add(jobEntry);
             }
 
