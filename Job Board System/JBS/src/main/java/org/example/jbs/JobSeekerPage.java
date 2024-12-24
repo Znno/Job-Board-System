@@ -59,7 +59,7 @@ public class JobSeekerPage extends Application {
         Button profileButton = new Button("Profile");
         Button viewJobsButton = new Button("View Jobs");
 
-        layout.getChildren().addAll(logoutButton, profileButton, viewJobsButton);
+        layout.getChildren().addAll( profileButton, viewJobsButton,logoutButton);
 
         logoutButton.setOnAction(e -> {
             primaryStage.fireEvent(

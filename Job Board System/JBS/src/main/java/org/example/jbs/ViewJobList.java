@@ -108,6 +108,14 @@ public class ViewJobList extends Application {
                 jobEntry.getChildren().addAll(jobLabel, stateLabel, spacer, viewButton);
                 jobListView.getItems().add(jobEntry);
             }
+            Button cancelButton = new Button("Cancel");
+            cancelButton.setOnAction(e -> {
+                jobstage.fireEvent(
+                        new javafx.stage.WindowEvent(jobstage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                );
+            });
+
+            jobListView.getItems().add(new HBox(cancelButton));
 
         } catch (Exception e) {
             e.printStackTrace();

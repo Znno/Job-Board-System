@@ -37,7 +37,7 @@ public class ViewProfile extends Application {
 
         Button saveButton = new Button("Save Changes");
         Button cancelButton = new Button("Cancel");
-        cancelButton.setText("");
+        cancelButton.setText("Cancel");
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
         layout.getChildren().addAll(nameLabel, nameField, locationLabel, locationField,
