@@ -6,13 +6,15 @@ public class Job {
     private String title;
     private String description;
     private String requirements;
+    private String location;
 
-    public Job(int id, int employerId, String title, String description, String requirements) {
+    public Job(int id, int employerId, String title, String description, String requirements , String location) {
         this.id = id;
         this.employerId = employerId;
         this.title = title;
         this.description = description;
         this.requirements = requirements;
+        this.location = location;
     }
 
     public int getId() {
@@ -35,6 +37,10 @@ public class Job {
         return requirements;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -46,4 +52,9 @@ public class Job {
     public void setRequirements(String requirements) {
         this.requirements = requirements;
     }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
 }

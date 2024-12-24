@@ -121,10 +121,10 @@ public class ViewProfile extends Application {
         }
     }
 
-    private boolean isValidName(String name) {
+    public static boolean isValidName(String name) {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "")){
 
-            String sql = "SELECT * FROM jobseeker_profile WHERE name = ?";
+            String sql = "SELECT * FROM users WHERE userName = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, name);
             ResultSet rs = stmt.executeQuery();

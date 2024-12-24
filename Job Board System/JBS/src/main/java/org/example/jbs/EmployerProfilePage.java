@@ -27,38 +27,48 @@ public class EmployerProfilePage extends Application {
         Label companyNameLabel = new Label("companyName:");
         TextField companyNameField = new TextField();
 
-        Label locationLabel = new Label("Location:");
-        TextField locationField = new TextField();
-
         Label historyLabel = new Label("History");
         TextArea historyArea = new TextArea();
 
         Button saveButton = new Button("Save Changes");
+
         Button cancelButton = new Button("Cancel");
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
-        layout.getChildren().addAll(nameLabel, nameField, companyNameLabel, companyNameField, locationLabel, locationField,
+        layout.getChildren().addAll(nameLabel, nameField, companyNameLabel, companyNameField,
                 historyLabel, historyArea, saveButton, cancelButton);
 
         saveButton.setOnAction(e -> {
-            saveProfileChanges(nameField.getText(), companyNameField.getText(), locationField.getText(),
-                    historyArea.getText());
+            if (ViewProfile.isValidName(nameField.getText())) {
+                saveProfileChanges(nameField.getText(), companyNameField.getText(),
+                        historyArea.getText());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Taken name");
+                alert.setContentText("Please enter another name.");
+                alert.showAndWait();
+            }
         });
+
+
+
         cancelButton.setOnAction(e -> {
             primaryStage.fireEvent(
                     new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
             );
         });
 
-        fetchProfileData(userId, nameField, companyNameField, locationField, historyArea);
+        fetchProfileData(userId, nameField, companyNameField, historyArea);
 
         Scene scene = new Scene(layout, 600, 700);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void fetchProfileData(int userId, TextField nameField, TextField companyNameField, TextField locationField,
+
+
+    private void fetchProfileData(int userId, TextField nameField, TextField companyNameField,
                                   TextArea historyArea) {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "")){
 
@@ -70,12 +80,11 @@ public class EmployerProfilePage extends Application {
             if (rs.next()) {
                 nameField.setText(rs.getString("name"));
                 companyNameField.setText(rs.getString("companyName"));
-                locationField.setText(rs.getString("location"));
                 historyArea.setText(rs.getString("history"));
 
             } else {
-                String insertSql = "INSERT INTO employer ( id ,name,companyName,  location, history) " +
-                        "VALUES (?,'','', '', '')";
+                String insertSql = "INSERT INTO employer ( id ,name,companyName, history) " +
+                        "VALUES (?,'','', '')";
                 PreparedStatement insertStmt = conn.prepareStatement(insertSql);
                 insertStmt.setInt(1, userId);
 
@@ -91,16 +100,15 @@ public class EmployerProfilePage extends Application {
     }
 
 
-    private void saveProfileChanges(String name, String companyName, String location, String history) {
+    private void saveProfileChanges(String name, String companyName, String history) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
-            String sql = "UPDATE employer SET name = ?, companyName = ?, location = ?, history = ? WHERE id = ?";
+            String sql = "UPDATE employer SET name = ?, companyName = ?, history = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, name);
             stmt.setString(2, companyName);
-            stmt.setString(3, location);
-            stmt.setString(4, history);
-            stmt.setInt(5, userId);
+            stmt.setString(3, history);
+            stmt.setInt(4, userId);
 
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {

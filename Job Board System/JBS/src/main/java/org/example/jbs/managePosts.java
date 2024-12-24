@@ -107,7 +107,7 @@ public class managePosts extends Application {
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                jobList.add(new Job(rs.getInt("id"), rs.getInt("employer_id"), rs.getString("title"), rs.getString("description"), rs.getString("requirements")));
+                jobList.add(new Job(rs.getInt("id"), rs.getInt("employer_id"), rs.getString("title"), rs.getString("description"), rs.getString("requirements") , rs.getString("location")));
             }
         } catch (Exception e) {
             e.printStackTrace();
