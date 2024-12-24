@@ -44,7 +44,7 @@ public class ViewProfile extends Application {
                 saveProfileChanges(nameField.getText(), locationField.getText(),experienceArea.getText(), educationArea.getText());
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Taken name");
+                alert.setTitle("Invalid name");
                 alert.setContentText("Please enter another name.");
                 alert.showAndWait();
             }
@@ -122,8 +122,13 @@ public class ViewProfile extends Application {
     }
 
     public static boolean isValidName(String name) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "")){
 
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "")){
+            name.trim();
+            if(name.isEmpty())
+            {
+                return false;
+            }
             String sql = "SELECT * FROM users WHERE userName = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, name);
@@ -133,7 +138,6 @@ public class ViewProfile extends Application {
             e.printStackTrace();
             return false;
         }
-
     }
 
     public static void main(String[] args) {

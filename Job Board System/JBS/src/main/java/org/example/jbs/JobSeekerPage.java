@@ -67,12 +67,7 @@ public class JobSeekerPage extends Application {
             );
         });
 
-        profileButton.setOnAction(e -> {
-            Stage stage = new Stage();
-            new JSProfilePage().start(stage);
-            primaryStage.hide();
-            stage.setOnCloseRequest(event -> primaryStage.show());
-        });
+
         int user_id = getUserIdByUsername(username);
 
         profileButton.setOnAction(e -> {
