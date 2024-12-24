@@ -13,8 +13,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.TreeMap;
 
 public class LoginForm extends Application {
+    TreeMap<String, Integer> userCounter = new TreeMap<>();
 
     public String get_type(String username) {
         String url = "jdbc:mysql://localhost/jbs";
@@ -31,16 +33,16 @@ public class LoginForm extends Application {
         }
         return null;
     }
+
     String user;
-    public String get_username()
-    {
+
+    public String get_username() {
         return user;
     }
 
     @Override
     public void start(Stage primarystage) {
         primarystage.setTitle("Login Form");
-
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10));
         grid.setVgap(8);
@@ -57,43 +59,44 @@ public class LoginForm extends Application {
         loginButton.setOnAction(e -> {
             String username = userField.getText();
             String password = passField.getText();
-            password=DoubleHashing.doubleHash(password);
-            username=username.trim();
+            password = DoubleHashing.doubleHash(password);
+            username = username.trim();
             if (username.isEmpty() || password.isEmpty()) {
                 statusLabel.setText("All fields are required!");
             }
-            else if (validateLogin(username, password)==1) {
+            else {
+                int check=validateLogin(username, password);
+                if (check == 1) {
 
                 statusLabel.setText("Login successful!");
                 String type = get_type(username);
 
-                if(type.equals("jobSeeker")) {
+                if (type.equals("jobSeeker")) {
                     Stage stage = new Stage();
                     new JobSeekerPage(username).start(stage);
                     primarystage.hide();
                     stage.setOnCloseRequest(event -> primarystage.show());
 
-                } else if(type.equals("employer")) {
+                } else if (type.equals("employer")) {
                     Stage stage = new Stage();
                     new EmployerPage(username).start(stage);
                     primarystage.hide();
                     stage.setOnCloseRequest(event -> primarystage.show());
-                } else if(type.equals("admin")) {
+                } else if (type.equals("admin")) {
                     Stage stage = new Stage();
                     new AdminPage().start(stage);
                     primarystage.hide();
                     stage.setOnCloseRequest(event -> primarystage.show());
                 }
-            }
-            else if(validateLogin(username, password)==0){
+            } else if (check == 0) {
                 statusLabel.setText("User is not activated.");
-            }
-            else if(validateLogin(username, password)==-1){ {
-                statusLabel.setText("Invalid credentials.");
-            }
-            }
-            else if(validateLogin(username, password)==-2){
+            } else if (check == -1) {
+                {
+                    statusLabel.setText("Invalid credentials.");
+                }
+            } else if (check == -2) {
                 statusLabel.setText("Error occurred.");
+            }
             }
 
 
@@ -110,12 +113,13 @@ public class LoginForm extends Application {
         primarystage.setScene(scene);
         primarystage.show();
     }
+
     /*
-        * This method validates the login credentials
-        * returns 1 if the credentials are valid and the user is activated
-        * returns 0 if the credentials are valid but the user is not activated
-        * returns -1 if the credentials are invalid
-        * returns -2 if there is an error
+     * This method validates the login credentials
+     * returns 1 if the credentials are valid and the user is activated
+     * returns 0 if the credentials are valid but the user is not activated
+     * returns -1 if the credentials are invalid
+     * returns -2 if there is an error
      */
     private int validateLogin(String username, String password) {
         String url = "jdbc:mysql://localhost/jbs";
@@ -127,24 +131,42 @@ public class LoginForm extends Application {
             String query = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
-            user=username;
+            user = username;
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                if(rs.getBoolean("isActive")){
+            if (rs.next()) {
+                if (rs.getBoolean("isActive")) {
                     return 1;
-                }
-                else{
+                } else {
                     return 0;
                 }
-            }
-            else{
+            } else {
+                userCounter.put(username, userCounter.getOrDefault(username, 0) + 1);
+                System.out.println(userCounter.get(username));
+                if (userCounter.get(username) >= 5) {
+                    deActivateUser(username);
+                }
                 return -1;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             return -2;
+        }
+    }
+
+    private void deActivateUser(String username) {
+        String url = "jdbc:mysql://localhost/jbs";
+        String dbUser = "root";
+        String dbPass = "";
+        // deactivate user from the database
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPass)) {
+            String query = "UPDATE users SET isActive = 0 WHERE username = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, username);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

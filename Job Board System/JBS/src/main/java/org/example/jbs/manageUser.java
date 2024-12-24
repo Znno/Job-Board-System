@@ -273,8 +273,11 @@ public class manageUser extends Application {
             VBox vbox = new VBox(table);
             Scene scene = new Scene(vbox);
             Stage stage = new Stage();
+            primaryStage.hide();
             stage.setScene(scene);
             stage.show();
+            stage.setOnCloseRequest(event -> primaryStage.show());
+
         });
 
         grid.add(userLabel, 0, 0);
