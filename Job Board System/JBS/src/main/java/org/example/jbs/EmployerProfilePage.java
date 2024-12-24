@@ -45,7 +45,7 @@ public class EmployerProfilePage extends Application {
                         historyArea.getText());
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Taken name");
+                alert.setTitle("Invalid name");
                 alert.setContentText("Please enter another name.");
                 alert.showAndWait();
             }
