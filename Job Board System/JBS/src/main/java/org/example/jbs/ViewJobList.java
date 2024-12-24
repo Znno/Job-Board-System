@@ -17,7 +17,6 @@ import java.sql.*;
 
 public class ViewJobList extends Application {
     int user_id;
-    String jobSeekerLocation;
 
     public ViewJobList(int user_id) {
         this.user_id = user_id;
@@ -29,63 +28,29 @@ public class ViewJobList extends Application {
 
         ListView<HBox> jobListView = new ListView<>();
 
-        // Load job seeker's location
-        loadJobSeekerLocation();
-
-        // Buttons to filter jobs
-        Button showLocalJobsButton = new Button("Show Local Jobs");
-        Button showAllJobsButton = new Button("Show All Jobs");
-
-        showLocalJobsButton.setOnAction(e -> loadJobsFromDatabase(jobListView, jobStage, true));
-        showAllJobsButton.setOnAction(e -> loadJobsFromDatabase(jobListView, jobStage, false));
+        loadJobsFromDatabase(jobListView, jobStage);
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(15));
-        layout.getChildren().addAll(new Label("Job List"), showLocalJobsButton, showAllJobsButton, jobListView);
+        layout.getChildren().addAll(new Label("Job List"), jobListView);
 
         Scene scene = new Scene(layout, 400, 300);
         jobStage.setScene(scene);
         jobStage.show();
     }
 
-    private void loadJobSeekerLocation() {
+
+    private void loadJobsFromDatabase(ListView<HBox> jobListView, Stage jobstage) {
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
 
-        String query = "SELECT location FROM jobseeker_profile WHERE user_id = ?";
+        String query = "SELECT title, description, requirements, employer_id,id,Location FROM jobs";
+
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, user_id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                jobSeekerLocation = rs.getString("location");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadJobsFromDatabase(ListView<HBox> jobListView, Stage jobStage, boolean filterByLocation) {
-        jobListView.getItems().clear();
-        String url = "jdbc:mysql://localhost/jbs";
-        String user = "root";
-        String password = "";
-
-        String query = "SELECT title, description, requirements, employer_id, id, location FROM jobs";
-        if (filterByLocation) {
-            query += " WHERE location = ?";
-        }
-
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            if (filterByLocation) {
-                stmt.setString(1, jobSeekerLocation);
-            }
-
-            ResultSet rs = stmt.executeQuery();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 int employer_id = rs.getInt("employer_id");
@@ -94,7 +59,6 @@ public class ViewJobList extends Application {
                 String description = rs.getString("description");
                 int job_id = rs.getInt("id");
                 String location = rs.getString("location");
-
                 String query1 = "SELECT id FROM jobseeker_profile WHERE user_id=?";
                 PreparedStatement stmt1 = conn.prepareStatement(query1);
                 stmt1.setInt(1, user_id);
@@ -105,6 +69,7 @@ public class ViewJobList extends Application {
                 }
 
                 String query2 = "SELECT state FROM applicants_details WHERE jobseeker_id=? AND job_id=?";
+
                 PreparedStatement stmt2 = conn.prepareStatement(query2);
                 stmt2.setInt(1, jobseeker_id);
                 stmt2.setInt(2, job_id);
@@ -113,25 +78,31 @@ public class ViewJobList extends Application {
                 if (rs2.next()) {
                     state = rs2.getString("state");
                 }
-
                 Label jobLabel = new Label(title);
                 Label stateLabel = new Label(state);
                 Button viewButton = new Button("View");
                 viewButton.setOnAction(e -> {
-                    String temp = stateLabel.getText();
+                    String temp = "Not Applied";
+                    temp = stateLabel.getText();
                     if (temp.equals("Not Applied")) {
+                        System.out.println(user_id);
                         Stage jobDetailStage = new Stage();
-                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id, location).start(jobDetailStage);
-                        jobStage.hide();
-                        jobDetailStage.setOnCloseRequest(event -> jobStage.show());
+                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id,location).start(jobDetailStage);
+                        jobstage.hide();
+
+                        jobDetailStage.setOnCloseRequest(event -> jobstage.show());
+                        //loadJobsFromDatabase(jobListView, jobstage);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Already Applied");
                         alert.setHeaderText(null);
                         alert.setContentText("You have already applied to this job.");
                         alert.showAndWait();
+
                     }
+
                 });
+
 
                 HBox jobEntry = new HBox(10);
                 Region spacer = new Region();
@@ -140,11 +111,12 @@ public class ViewJobList extends Application {
                 jobEntry.getChildren().addAll(jobLabel, stateLabel, spacer, viewButton);
                 jobListView.getItems().add(jobEntry);
             }
-
             Button cancelButton = new Button("Cancel");
-            cancelButton.setOnAction(e -> jobStage.fireEvent(
-                    new javafx.stage.WindowEvent(jobStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
-            ));
+            cancelButton.setOnAction(e -> {
+                jobstage.fireEvent(
+                        new javafx.stage.WindowEvent(jobstage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                );
+            });
 
             jobListView.getItems().add(new HBox(cancelButton));
 
