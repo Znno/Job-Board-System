@@ -35,11 +35,6 @@ public class LoginForm extends Application {
     }
 
     String user;
-
-    public String get_username() {
-        return user;
-    }
-
     @Override
     public void start(Stage primarystage) {
         primarystage.setTitle("Login Form");
@@ -55,6 +50,12 @@ public class LoginForm extends Application {
 
         Button loginButton = new Button("Login");
         Label statusLabel = new Label();
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(
+                e -> primarystage.fireEvent(
+                        new javafx.stage.WindowEvent(primarystage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
 
         loginButton.setOnAction(e -> {
             String username = userField.getText();
@@ -88,6 +89,7 @@ public class LoginForm extends Application {
                         primarystage.hide();
                         stage.setOnCloseRequest(event -> primarystage.show());
                     }
+                    statusLabel.setText("");
                 } else if (check == 0) {
                     statusLabel.setText("User is not activated.");
                 } else if (check == -1) {
@@ -107,6 +109,7 @@ public class LoginForm extends Application {
         grid.add(passLabel, 0, 1);
         grid.add(passField, 1, 1);
         grid.add(loginButton, 0, 2);
+        grid.add(cancelButton, 0, 3);
         grid.add(statusLabel, 1, 2);
 
         Scene scene = new Scene(grid, 300, 200);
