@@ -68,8 +68,8 @@ public class manageUser extends Application {
         String deleteApplicationsByEmployerSql = "DELETE FROM applicants_details WHERE employer_id = ?";
         String deleteJobsSql = "DELETE FROM jobs WHERE employer_id = ?";
         String deleteUserSql = "DELETE FROM users WHERE username = ?";
-        String deleteEmployerSql = "DELETE FROM employer WHERE name = ?";
-        String deleteJobSeekerSql = "DELETE FROM jobseeker_profile WHERE name = ?";
+        String deleteEmployerSql = "DELETE FROM employer WHERE user_id = ?";
+        String deleteJobSeekerSql = "DELETE FROM jobseeker_profile WHERE user_id = ?";
 
         try (Connection conn = connect();
              PreparedStatement getUserIdStmt = conn.prepareStatement(getUserIdSql);
@@ -94,7 +94,7 @@ public class manageUser extends Application {
                     // Delete applications related to the employer
                     String getEmployerId = "SELECT id FROM employer WHERE user_id = ?";
                     PreparedStatement getEmployerIdStmt = conn.prepareStatement(getEmployerId);
-                    getEmployerIdStmt.setString(1, username);
+                    getEmployerIdStmt.setInt(1, userId);
                     ResultSet rs = getEmployerIdStmt.executeQuery();
                     if (rs.next()) {
                         int employerId = rs.getInt("id");
@@ -106,13 +106,13 @@ public class manageUser extends Application {
                     }
 
                     // Delete the employer from the employer table
-                    deleteEmployerStmt.setString(1, username);
+                    deleteEmployerStmt.setInt(1, userId);
                     deleteEmployerStmt.executeUpdate();
                 } else if ("jobSeeker".equals(userType)) {
                     // Delete applications related to the jobseeker
-                    String getJobSeekerId = "SELECT id FROM jobseeker_profile WHERE name = ?";
+                    String getJobSeekerId = "SELECT id FROM jobseeker_profile WHERE user_id = ?";
                     PreparedStatement getJobSeekerIdStmt = conn.prepareStatement(getJobSeekerId);
-                    getJobSeekerIdStmt.setString(1, username);
+                    getJobSeekerIdStmt.setInt(1, userId);
                     ResultSet rs = getJobSeekerIdStmt.executeQuery();
 
                     if (rs.next()) {
@@ -122,7 +122,7 @@ public class manageUser extends Application {
                     }
 
                     // Delete the jobseeker from the jobseeker table
-                    deleteJobSeekerStmt.setString(1, username);
+                    deleteJobSeekerStmt.setInt(1, userId);
                     deleteJobSeekerStmt.executeUpdate();
                 }
 
@@ -204,12 +204,6 @@ public class manageUser extends Application {
         Button activateButton = new Button("Activate");
         Button deactivateButton = new Button("Deactivate");
         Button viewAllButton = new Button("View All");
-        Button cancel=new Button("Cancel");
-        cancel.setOnAction(
-                e -> primaryStage.fireEvent(
-                        new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
-                )
-        );
         Label statusLabel = new Label();
 
         deleteButton.setOnAction(e -> {
@@ -251,8 +245,6 @@ public class manageUser extends Application {
             TableColumn<User, String> userTypeColumn = new TableColumn<>("User Type");
             userTypeColumn.setCellValueFactory(new PropertyValueFactory<>("userType"));
 
-
-
             TableColumn<User, Void> actionColumn = new TableColumn<>("Action");
             actionColumn.setCellFactory(param -> new TableCell<>() {
                 private final Button editButton = new Button("Edit");
@@ -279,21 +271,13 @@ public class manageUser extends Application {
             table.getColumns().setAll(usernameColumn, passwordColumn, userTypeColumn, actionColumn);
 
             VBox vbox = new VBox(table);
-            Scene scene = new Scene(vbox,800,600);
-
+            Scene scene = new Scene(vbox);
             Stage stage = new Stage();
-            Button cancel1=new Button("Cancel");
-            cancel1.setOnAction(
-                    e1 -> stage.fireEvent(
-                            new javafx.stage.WindowEvent(stage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
-                    )
-            );
-            vbox.getChildren().add(cancel1);
-
-            stage.setTitle("All Users");
+            primaryStage.hide();
             stage.setScene(scene);
-
             stage.show();
+            stage.setOnCloseRequest(event -> primaryStage.show());
+
         });
 
         grid.add(userLabel, 0, 0);
@@ -302,7 +286,6 @@ public class manageUser extends Application {
         grid.add(activateButton, 1, 1);
         grid.add(deactivateButton, 2, 1);
         grid.add(viewAllButton, 0, 2);
-        grid.add(cancel, 0, 3);
         grid.add(statusLabel, 1, 2);
 
         Scene scene = new Scene(grid, 400, 300);
@@ -337,7 +320,7 @@ public class manageUser extends Application {
         Label statusLabel = new Label();
 
         updateButton.setOnAction(e -> {
-            updateUser(user.getUsername(), newUserField.getText(), passField.getText(), typeComboBox.getValue());
+            updateUser(user.getUsername(), newUserField.getText(), DoubleHashing.doubleHash(passField.getText()), typeComboBox.getValue());
             user.setUsername(newUserField.getText()); // Update the username in the User object
             statusLabel.setText("User updated.");
             refreshTable();

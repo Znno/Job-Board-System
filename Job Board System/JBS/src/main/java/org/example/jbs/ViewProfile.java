@@ -44,14 +44,8 @@ public class ViewProfile extends Application {
                  experienceLabel, experienceArea, educationLabel, educationArea, saveButton, cancelButton);
 
         saveButton.setOnAction(e -> {
-            if (isValidName(nameField.getText())) {
                 saveProfileChanges(nameField.getText(), locationField.getText(),experienceArea.getText(), educationArea.getText());
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Taken name");
-                alert.setContentText("Please enter another name.");
-                alert.showAndWait();
-            }
+
         });
 
         cancelButton.setOnAction(e -> {
@@ -102,21 +96,17 @@ public class ViewProfile extends Application {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "");
             String sql = "UPDATE jobseeker_profile SET name = ?, location = ?, " +
                     "experience = ?, education = ?, date_updated = CURRENT_TIMESTAMP WHERE user_id = ?";
-            String sql2 = "UPDATE users SET userName = ? WHERE userID = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            PreparedStatement stmt2 = conn.prepareStatement(sql2);
 
             stmt.setString(1, name);
             stmt.setString(2, location);
             stmt.setString(3, experience);
             stmt.setString(4, education);
             stmt.setInt(5, userId);
-            stmt2.setString(1, name);
-            stmt2.setInt(2, userId);
+
             conn.setAutoCommit(false);
             int rowsUpdated = stmt.executeUpdate();
-            int rowsUpdated2 = stmt2.executeUpdate();
-            if (rowsUpdated > 0&&rowsUpdated2>0) {
+            if (rowsUpdated > 0) {
                 System.out.println("Profile updated successfully!");
             } else {
                 System.out.println("Profile update failed!");
@@ -127,20 +117,7 @@ public class ViewProfile extends Application {
         }
     }
 
-    public static boolean isValidName(String name) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jbs", "root", "")){
 
-            String sql = "SELECT * FROM users WHERE userName = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
-            return !rs.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
 
     public static void main(String[] args) {
         launch(args);

@@ -135,6 +135,9 @@ public class    SignUpForm extends Application {
                     PreparedStatement stmt3 = conn.prepareStatement(query3);
                     stmt3.setInt(1, userId);
                     stmt3.setString(2, username);
+                    stmt3.setString(3, "");
+                    stmt3.setString(4, "");
+                    stmt3.setString(5, "");
                     stmt3.executeUpdate();
                 }
                 conn.commit();
