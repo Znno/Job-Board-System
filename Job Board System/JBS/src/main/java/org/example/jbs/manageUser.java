@@ -45,13 +45,12 @@ public class manageUser extends Application {
         }
     }
 
-    private void updateUser(String oldUsername, String newUsername, String newPassword, String newUserType) {
-        String sql = "UPDATE users SET username = ?, password = ?, userType = ? WHERE username = ?";
+    private void updateUser(String oldUsername, String newUsername, String newPassword) {
+        String sql = "UPDATE users SET username = ?, password = ? WHERE username = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, newUsername);
             stmt.setString(2, newPassword);
-            stmt.setString(3, newUserType);
-            stmt.setString(4, oldUsername);
+            stmt.setString(3, oldUsername);
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("User updated successfully.");
@@ -317,17 +316,13 @@ public class manageUser extends Application {
         Label passLabel = new Label("Password:");
         TextField passField = new TextField(user.getPassword());
 
-        Label typeLabel = new Label("User Type:");
-        ComboBox<String> typeComboBox = new ComboBox<>();
-        typeComboBox.getItems().addAll("employer", "jobSeeker");
-        typeComboBox.setValue(user.getUserType());
 
         Button updateButton = new Button("Update");
         Button deleteButton = new Button("Delete");
         Label statusLabel = new Label();
 
         updateButton.setOnAction(e -> {
-            updateUser(user.getUsername(), newUserField.getText(), DoubleHashing.doubleHash(passField.getText()), typeComboBox.getValue());
+            updateUser(user.getUsername(), newUserField.getText(), DoubleHashing.doubleHash(passField.getText()));
             user.setUsername(newUserField.getText()); // Update the username in the User object
             statusLabel.setText("User updated.");
             refreshTable();
@@ -343,8 +338,6 @@ public class manageUser extends Application {
         grid.add(newUserField, 1, 0);
         grid.add(passLabel, 0, 1);
         grid.add(passField, 1, 1);
-        grid.add(typeLabel, 0, 2);
-        grid.add(typeComboBox, 1, 2);
         grid.add(updateButton, 0, 3);
         grid.add(deleteButton, 1, 3);
         grid.add(statusLabel, 0, 4, 2, 1);
