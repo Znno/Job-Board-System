@@ -87,8 +87,9 @@ public class ViewJobList extends Application {
                 Button viewButton = new Button("View");
 
                 viewButton.setOnAction(e -> {
+                    System.out.println(user_id);
                     Stage jobDetailStage = new Stage();
-                    new ViewJobDetails(title, description, requirements, employer_id, user_id).start(jobDetailStage);
+                    new ViewJobDetails(title, description, requirements, employer_id, user_id,job_id).start(jobDetailStage);
                     jobstage.hide();
                     jobDetailStage.setOnCloseRequest(event -> jobstage.show());
 

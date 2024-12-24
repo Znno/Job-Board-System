@@ -18,26 +18,14 @@ public class ApplyForJob
     {
         this.employer_id=employer_id;
         this.user_id=user_id;
+
+        System.out.println(user_id+" "+employer_id+" "+job_id);
         this.job_id=job_id;
 
     }
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Upload CV");
-        String sql=" SELECT id from jobseeker_profile where user_id=?";
-        String url = "jdbc:mysql://localhost/jbs";
-        String dbUser = "root";
-        String dbPass = "";
         int jobseeker_id=-1;
-        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPass);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, this.user_id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                jobseeker_id = rs.getInt("id");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select CV (PDF File)");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -45,7 +33,7 @@ public class ApplyForJob
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile != null) {
             try {
-                uploadCVToDatabase(selectedFile, jobseeker_id, employer_id,job_id, "pending"); // Example: user_id=1, employer_id=1
+                uploadCVToDatabase(selectedFile, user_id, employer_id,job_id, "pending"); // Example: user_id=1, employer_id=1
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -69,6 +57,19 @@ public class ApplyForJob
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
+        String query2="SELECT id FROM jobseeker_profile WHERE user_id=?";
+        int jobseeker_id=-1;
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement stmt2 = conn.prepareStatement(query2)) {
+            stmt2.setInt(1,userId);
+            ResultSet rs=stmt2.executeQuery();
+            if(rs.next())
+            {
+                jobseeker_id=rs.getInt("id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         String query = "INSERT INTO applicants_details (cv, jobseeker_id, employer_id, state,job_id) VALUES (?, ?, ?, ?,?)";
 
@@ -82,10 +83,12 @@ public class ApplyForJob
              FileInputStream fis = new FileInputStream(file)) {
 
             stmt.setBinaryStream(1, fis, (int) file.length());
-            stmt.setInt(2, userId);
+            stmt.setInt(2, jobseeker_id);
             stmt.setInt(3, employerId);
             stmt.setString(4, state);
             stmt.setInt(5, job_id);
+            System.out.println(job_id+" "+employerId+" "+job_id);
+
 
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {

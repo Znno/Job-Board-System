@@ -17,12 +17,13 @@ public class ViewJobDetails {
     int employer_id,user_id;
     int job_id;
 
-    public ViewJobDetails(String title, String description,String requirements,int employer_id,int user_id) {
+    public ViewJobDetails(String title, String description,String requirements,int employer_id,int user_id,int job_id) {
         this.title = title;
         this.description = description;
         this.requirements = requirements;
         this.employer_id=employer_id;
         this.user_id=user_id;
+        this.job_id=job_id;
     }
 
     public void start(Stage jobDetailStage) {
