@@ -92,9 +92,9 @@ public class manageUser extends Application {
 
                 if ("employer".equals(userType)) {
                     // Delete applications related to the employer
-                    String getEmployerId = "SELECT id FROM employer WHERE name = ?";
+                    String getEmployerId = "SELECT id FROM employer WHERE user_id = ?";
                     PreparedStatement getEmployerIdStmt = conn.prepareStatement(getEmployerId);
-                    getEmployerIdStmt.setString(1, username);
+                    getEmployerIdStmt.setInt(1, userId);
                     ResultSet rs = getEmployerIdStmt.executeQuery();
                     if (rs.next()) {
                         int employerId = rs.getInt("id");
@@ -110,9 +110,9 @@ public class manageUser extends Application {
                     deleteEmployerStmt.executeUpdate();
                 } else if ("jobSeeker".equals(userType)) {
                     // Delete applications related to the jobseeker
-                    String getJobSeekerId = "SELECT id FROM jobseeker_profile WHERE name = ?";
+                    String getJobSeekerId = "SELECT id FROM jobseeker_profile WHERE user_id = ?";
                     PreparedStatement getJobSeekerIdStmt = conn.prepareStatement(getJobSeekerId);
-                    getJobSeekerIdStmt.setString(1, username);
+                    getJobSeekerIdStmt.setInt(1, userId);
                     ResultSet rs = getJobSeekerIdStmt.executeQuery();
 
                     if (rs.next()) {
@@ -320,7 +320,7 @@ public class manageUser extends Application {
         Label statusLabel = new Label();
 
         updateButton.setOnAction(e -> {
-            updateUser(user.getUsername(), newUserField.getText(), passField.getText(), typeComboBox.getValue());
+            updateUser(user.getUsername(), newUserField.getText(), DoubleHashing.doubleHash(passField.getText()), typeComboBox.getValue());
             user.setUsername(newUserField.getText()); // Update the username in the User object
             statusLabel.setText("User updated.");
             refreshTable();
