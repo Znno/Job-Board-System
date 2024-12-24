@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2024 at 05:31 PM
+-- Generation Time: Dec 24, 2024 at 10:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,7 +64,8 @@ CREATE TABLE `employer` (
 --
 
 INSERT INTO `employer` (`id`, `user_id`, `name`, `companyName`, `History`) VALUES
-(19, 57, 'employer', 'companyName', 'history');
+(19, 57, 'employer', 'companyName', 'history'),
+(20, 62, 'zoz', '', '');
 
 -- --------------------------------------------------------
 
@@ -77,15 +78,9 @@ CREATE TABLE `jobs` (
   `employer_id` int(5) NOT NULL,
   `title` varchar(50) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `requirements` varchar(255) NOT NULL
+  `requirements` varchar(255) NOT NULL,
+  `location` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `jobs`
---
-
-INSERT INTO `jobs` (`id`, `employer_id`, `title`, `description`, `requirements`) VALUES
-(64, 19, 'fadfa', 'adfadf', 'adfadf');
 
 -- --------------------------------------------------------
 
@@ -110,7 +105,8 @@ CREATE TABLE `jobseeker_profile` (
 
 INSERT INTO `jobseeker_profile` (`id`, `user_id`, `name`, `location`, `experience`, `education`, `date_created`, `date_updated`) VALUES
 (16, 55, 'admin', 'location', 'experience', 'education', '2024-12-24 16:28:13', '2024-12-24 16:28:13'),
-(17, 56, 'jobseeker', 'location', 'experience', 'education', '2024-12-24 16:28:48', '2024-12-24 16:29:19');
+(17, 56, 'jobseeker', 'location', 'experience', 'education', '2024-12-24 16:28:48', '2024-12-24 16:29:19'),
+(19, 64, 'ww', '', '', '', '2024-12-24 21:03:55', '2024-12-24 21:06:13');
 
 -- --------------------------------------------------------
 
@@ -134,7 +130,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`userID`, `email`, `userName`, `password`, `userType`, `isActive`) VALUES
 (55, 'admin@gmail.com', 'admin', 'dd474e450473186ec733689b549a94a54a96f276dba76b29138c57b6afe15bf7', 'admin', 1),
 (56, 'fadf@gmail.com', 'jobseeker', '5a77d1e9612d350b3734f6282259b7ff0a3f87d62cfef5f35e91a5604c0490a3', 'jobSeeker', 1),
-(57, 'adfa@gmail.com', 'employer', '5a77d1e9612d350b3734f6282259b7ff0a3f87d62cfef5f35e91a5604c0490a3', 'employer', 1);
+(57, 'adfa@gmail.com', 'employer', '5a77d1e9612d350b3734f6282259b7ff0a3f87d62cfef5f35e91a5604c0490a3', 'employer', 1),
+(62, 'sdawd@gmail.com', 'zoz', '5a77d1e9612d350b3734f6282259b7ff0a3f87d62cfef5f35e91a5604c0490a3', 'employer', 1),
+(64, '2a2@gmail.com', 'wewe', '5a77d1e9612d350b3734f6282259b7ff0a3f87d62cfef5f35e91a5604c0490a3', 'jobSeeker', 1);
 
 --
 -- Indexes for dumped tables
@@ -193,7 +191,7 @@ ALTER TABLE `applicants_details`
 -- AUTO_INCREMENT for table `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -205,13 +203,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `jobseeker_profile`
 --
 ALTER TABLE `jobseeker_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- Constraints for dumped tables

@@ -68,8 +68,8 @@ public class manageUser extends Application {
         String deleteApplicationsByEmployerSql = "DELETE FROM applicants_details WHERE employer_id = ?";
         String deleteJobsSql = "DELETE FROM jobs WHERE employer_id = ?";
         String deleteUserSql = "DELETE FROM users WHERE username = ?";
-        String deleteEmployerSql = "DELETE FROM employer WHERE name = ?";
-        String deleteJobSeekerSql = "DELETE FROM jobseeker_profile WHERE name = ?";
+        String deleteEmployerSql = "DELETE FROM employer WHERE user_id = ?";
+        String deleteJobSeekerSql = "DELETE FROM jobseeker_profile WHERE user_id = ?";
 
         try (Connection conn = connect();
              PreparedStatement getUserIdStmt = conn.prepareStatement(getUserIdSql);
@@ -106,7 +106,7 @@ public class manageUser extends Application {
                     }
 
                     // Delete the employer from the employer table
-                    deleteEmployerStmt.setString(1, username);
+                    deleteEmployerStmt.setInt(1, userId);
                     deleteEmployerStmt.executeUpdate();
                 } else if ("jobSeeker".equals(userType)) {
                     // Delete applications related to the jobseeker
@@ -122,7 +122,7 @@ public class manageUser extends Application {
                     }
 
                     // Delete the jobseeker from the jobseeker table
-                    deleteJobSeekerStmt.setString(1, username);
+                    deleteJobSeekerStmt.setInt(1, userId);
                     deleteJobSeekerStmt.executeUpdate();
                 }
 

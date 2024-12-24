@@ -40,15 +40,10 @@ public class EmployerProfilePage extends Application {
                 historyLabel, historyArea, saveButton, cancelButton);
 
         saveButton.setOnAction(e -> {
-            if (ViewProfile.isValidName(nameField.getText())) {
+
                 saveProfileChanges(nameField.getText(), companyNameField.getText(),
                         historyArea.getText());
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Invalid name");
-                alert.setContentText("Please enter another name.");
-                alert.showAndWait();
-            }
+
         });
 
 

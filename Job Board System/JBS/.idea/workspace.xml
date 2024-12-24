@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3a005be1-75cb-4cd4-9d29-c655743805aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/LoginForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/EmployerProfilePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/SignUpForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/SignUpForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/ViewProfile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/jbs/manageUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/jbs/manageUser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +136,7 @@
       <workItem from="1735054192809" duration="1000" />
       <workItem from="1735054202343" duration="335000" />
       <workItem from="1735055548964" duration="2203000" />
-      <workItem from="1735068124813" duration="4010000" />
+      <workItem from="1735068124813" duration="6387000" />
     </task>
     <servers />
   </component>
