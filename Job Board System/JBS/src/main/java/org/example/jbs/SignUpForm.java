@@ -120,17 +120,14 @@ public class    SignUpForm extends Application {
                     PreparedStatement stmt2 = conn.prepareStatement(query2);
                     stmt2.setInt(1, userId);
                     stmt2.setString(2, username);
-                    stmt2.setString(3, "companyName");
-                    stmt2.setString(4, "history");
+                    stmt2.setString(3, "");
+                    stmt2.setString(4, "");
                     stmt2.executeUpdate();
                 } else if ("jobSeeker".equals(role)) {
                     String query3 = "INSERT INTO jobseeker_profile (user_id, name, location, experience, education) VALUES (?, ?, ?, ?, ?)";
                     PreparedStatement stmt3 = conn.prepareStatement(query3);
                     stmt3.setInt(1, userId);
                     stmt3.setString(2, username);
-                    stmt3.setString(3, "location");
-                    stmt3.setString(4, "experience");
-                    stmt3.setString(5, "education");
                     stmt3.executeUpdate();
                 }
                 conn.commit();

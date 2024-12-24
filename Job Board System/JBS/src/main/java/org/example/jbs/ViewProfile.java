@@ -21,19 +21,23 @@ public class ViewProfile extends Application {
 
         Label nameLabel = new Label("Name:");
         TextField nameField = new TextField();
+        nameField.setText("");
 
         Label locationLabel = new Label("Location:");
         TextField locationField = new TextField();
+        locationField.setText("");
 
         Label experienceLabel = new Label("Experience:");
         TextArea experienceArea = new TextArea();
+        experienceArea.setText("");
 
         Label educationLabel = new Label("Education:");
         TextArea educationArea = new TextArea();
+        educationArea.setText("");
 
         Button saveButton = new Button("Save Changes");
         Button cancelButton = new Button("Cancel");
-
+        cancelButton.setText("");
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
         layout.getChildren().addAll(nameLabel, nameField, locationLabel, locationField,
@@ -78,11 +82,13 @@ public class ViewProfile extends Application {
                 experienceArea.setText(rs.getString("experience"));
                 educationArea.setText(rs.getString("education"));
             } else {
+                System.out.println("wow");
                 String insertSql = "INSERT INTO jobseeker_profile (user_id, name, location, experience, education) " +
                         "VALUES (?, '', '', '', '')";
                 PreparedStatement insertStmt = conn.prepareStatement(insertSql);
                 insertStmt.setInt(1, userId);
                 insertStmt.executeUpdate();
+
                 System.out.println("New profile created for user: " + userId);
             }
         } catch (SQLException e) {

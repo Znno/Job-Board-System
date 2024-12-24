@@ -45,7 +45,7 @@ public class ViewJobList extends Application {
         String user = "root";
         String password = "";
 
-        String query = "SELECT title, description, requirements, employer_id,id FROM jobs";
+        String query = "SELECT title, description, requirements, employer_id,id,Location FROM jobs";
 
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
@@ -77,11 +77,9 @@ public class ViewJobList extends Application {
                 if (rs2.next()) {
                     state = rs2.getString("state");
                 }
-
                 Label jobLabel = new Label(title);
                 Label stateLabel = new Label(state);
                 Button viewButton = new Button("View");
-
                 viewButton.setOnAction(e -> {
                     String temp = "Not Applied";
                     temp = stateLabel.getText();
@@ -101,6 +99,7 @@ public class ViewJobList extends Application {
                     }
 
                 });
+
 
                 HBox jobEntry = new HBox(10);
                 Region spacer = new Region();
