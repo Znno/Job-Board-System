@@ -27,6 +27,12 @@ public class managePosts extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Manage Posts");
+        Button cancel=new Button("Cancel");
+        cancel.setOnAction(e -> {
+            primaryStage.fireEvent(
+                    new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+        });
 
         TableColumn<Job, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setMinWidth(50);
@@ -90,8 +96,9 @@ public class managePosts extends Application {
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10));
         layout.getChildren().addAll(table);
+        layout.getChildren().add(cancel);
 
-        Scene scene = new Scene(layout, 1000, 600);
+        Scene scene = new Scene(layout, 1200, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

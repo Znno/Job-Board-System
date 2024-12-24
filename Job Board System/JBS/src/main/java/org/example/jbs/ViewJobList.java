@@ -88,7 +88,9 @@ public class ViewJobList extends Application {
                         Stage jobDetailStage = new Stage();
                         new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id).start(jobDetailStage);
                         jobstage.hide();
+
                         jobDetailStage.setOnCloseRequest(event -> jobstage.show());
+                        //loadJobsFromDatabase(jobListView, jobstage);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Already Applied");

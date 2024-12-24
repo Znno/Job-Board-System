@@ -15,6 +15,12 @@ public class Main extends Application {
 
         Button loginButton = new Button("Login");
         Button signUpButton = new Button("Sign Up");
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(
+                e -> primaryStage.fireEvent(
+                        new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
 
         loginButton.setOnAction(e -> {
             Stage loginStage = new Stage();
@@ -31,7 +37,7 @@ public class Main extends Application {
         });
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(loginButton, signUpButton);
+        layout.getChildren().addAll(loginButton, signUpButton,closeButton);
 
         Scene scene = new Scene(layout, 300, 200);
         primaryStage.setScene(scene);

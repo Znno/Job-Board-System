@@ -14,7 +14,13 @@ public class AdminPage extends Application {
         VBox layout = new VBox(10);
         Button UserButton = new Button("Users");
         Button PostsButton = new Button("Posts");
-        layout.getChildren().addAll(UserButton , PostsButton);
+        Button logout = new Button("Logout");
+        logout.setOnAction(e -> {
+            primaryStage.fireEvent(
+                    new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+        });
+        layout.getChildren().addAll(UserButton , PostsButton,logout);
 
         UserButton.setOnAction(e -> {
             Stage stage = new Stage();

@@ -36,7 +36,13 @@ public class EPJobListPage extends Application {
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(15));
-        layout.getChildren().addAll(new Label("Job List"), jobListView, addJobButton);
+        Button cancel = new Button("Cancel");
+        cancel.setOnAction(
+                e -> primaryStage.fireEvent(
+                        new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
+        layout.getChildren().addAll(new Label("Job List"), jobListView, addJobButton,cancel);
 
         addJobButton.setOnAction(e -> {
             Stage stage = new Stage();
@@ -44,7 +50,7 @@ public class EPJobListPage extends Application {
             primaryStage.hide();
             stage.setOnCloseRequest(event -> primaryStage.show());
         });
-        Scene scene = new Scene(layout, 500, 500);
+        Scene scene = new Scene(layout, 800, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -82,10 +88,7 @@ public class EPJobListPage extends Application {
 
                 applicationsButton.setOnAction(e -> {
                     System.out.println("Applications job: " + title);
-
-                        primaryStage.fireEvent(
-                                new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
-                        );
+                    Button cancel = new Button("Cancel");
                     try {
                         Stage stage = new Stage();
                         new EPapplications(employer_id).start(stage);
@@ -122,6 +125,7 @@ public class EPJobListPage extends Application {
                 });
 
                 HBox jobEntry = new HBox(10);
+
                 jobEntry.getChildren().addAll(jobTitleLabel, jobDescriptionLabel, jobRequirementsLabel, spacer, applicationsButton, updateButton, deleteButton);
                 jobListView.getItems().add(jobEntry);
             }

@@ -49,9 +49,15 @@ public class EPapplications extends Application {
 
         Button rejectButton = new Button("Reject");
         rejectButton.setOnAction(e -> updateApplicantstate("Rejected"));
+        Button cancel=new Button("Cancel");
+        cancel.setOnAction(e -> {
+            stage.fireEvent(
+                    new javafx.stage.WindowEvent(stage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            );
+        });
 
         // Layout
-        VBox layout = new VBox(10, tableView, acceptButton, rejectButton);
+        VBox layout = new VBox(10, tableView, acceptButton, rejectButton,cancel);
         layout.setPadding(new Insets(10));
 
         // Scene

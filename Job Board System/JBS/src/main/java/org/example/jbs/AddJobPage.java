@@ -45,6 +45,12 @@ public class AddJobPage extends Application {
         TextField requirementsField = new TextField();
 
         Button submitButton = new Button("Submit");
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(
+                e -> primaryStage.fireEvent(
+                        new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
 
         submitButton.setOnAction(e -> {
             String jobTitle = titleField.getText();
@@ -98,7 +104,7 @@ public class AddJobPage extends Application {
         });
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(titleLabel, titleField, descriptionLabel, descriptionField, requirementsLabel, requirementsField, submitButton);
+        layout.getChildren().addAll(titleLabel, titleField, descriptionLabel, descriptionField, requirementsLabel, requirementsField, submitButton,cancelButton);
 
         Scene scene = new Scene(layout, 400, 400);
         primaryStage.setScene(scene);

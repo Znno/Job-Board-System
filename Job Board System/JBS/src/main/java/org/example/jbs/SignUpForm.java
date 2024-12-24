@@ -53,6 +53,12 @@ public class    SignUpForm extends Application {
         // Sign-up button and status label
         Button signUpButton = new Button("Sign Up");
         Label statusLabel = new Label();
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(
+                e -> stage.fireEvent(
+                        new javafx.stage.WindowEvent(stage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
 
         // Sign-up button action
         signUpButton.setOnAction(e -> {
@@ -85,10 +91,11 @@ public class    SignUpForm extends Application {
         grid.add(roleLabel, 0, 3);
         grid.add(roleComboBox, 1, 3);
         grid.add(signUpButton, 0, 4);
+        grid.add(cancelButton, 0, 5);
         grid.add(statusLabel, 1, 4);
 
         // Set the scene
-        Scene scene = new Scene(grid, 350, 250);
+        Scene scene = new Scene(grid, 350, 300);
         stage.setScene(scene);
         stage.show();
     }

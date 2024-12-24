@@ -51,8 +51,15 @@ public class LoginForm extends Application {
         Label passLabel = new Label("Password:");
         PasswordField passField = new PasswordField();
 
+
         Button loginButton = new Button("Login");
         Label statusLabel = new Label();
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(
+                e -> primarystage.fireEvent(
+                        new javafx.stage.WindowEvent(primarystage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
 
         loginButton.setOnAction(e -> {
             String username = userField.getText();
@@ -72,18 +79,25 @@ public class LoginForm extends Application {
                     new JobSeekerPage(username).start(stage);
                     primarystage.hide();
                     stage.setOnCloseRequest(event -> primarystage.show());
+                    statusLabel.setText("");
 
                 } else if(type.equals("employer")) {
                     Stage stage = new Stage();
                     new EmployerPage(username).start(stage);
                     primarystage.hide();
                     stage.setOnCloseRequest(event -> primarystage.show());
+                    statusLabel.setText("");
+
                 } else if(type.equals("admin")) {
                     Stage stage = new Stage();
                     new AdminPage().start(stage);
                     primarystage.hide();
                     stage.setOnCloseRequest(event -> primarystage.show());
+                    statusLabel.setText("");
+
                 }
+                userField.setText("");
+                passField.setText("");
             }
             else if(validateLogin(username, password)==0){
                 statusLabel.setText("User is not activated.");
@@ -104,6 +118,7 @@ public class LoginForm extends Application {
         grid.add(passLabel, 0, 1);
         grid.add(passField, 1, 1);
         grid.add(loginButton, 0, 2);
+        grid.add(cancelButton, 0, 3);
         grid.add(statusLabel, 1, 2);
 
         Scene scene = new Scene(grid, 300, 200);

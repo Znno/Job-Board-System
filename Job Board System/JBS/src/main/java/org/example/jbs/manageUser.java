@@ -204,6 +204,12 @@ public class manageUser extends Application {
         Button activateButton = new Button("Activate");
         Button deactivateButton = new Button("Deactivate");
         Button viewAllButton = new Button("View All");
+        Button cancel=new Button("Cancel");
+        cancel.setOnAction(
+                e -> primaryStage.fireEvent(
+                        new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
         Label statusLabel = new Label();
 
         deleteButton.setOnAction(e -> {
@@ -245,6 +251,8 @@ public class manageUser extends Application {
             TableColumn<User, String> userTypeColumn = new TableColumn<>("User Type");
             userTypeColumn.setCellValueFactory(new PropertyValueFactory<>("userType"));
 
+
+
             TableColumn<User, Void> actionColumn = new TableColumn<>("Action");
             actionColumn.setCellFactory(param -> new TableCell<>() {
                 private final Button editButton = new Button("Edit");
@@ -271,9 +279,20 @@ public class manageUser extends Application {
             table.getColumns().setAll(usernameColumn, passwordColumn, userTypeColumn, actionColumn);
 
             VBox vbox = new VBox(table);
-            Scene scene = new Scene(vbox);
+            Scene scene = new Scene(vbox,800,600);
+
             Stage stage = new Stage();
+            Button cancel1=new Button("Cancel");
+            cancel1.setOnAction(
+                    e1 -> stage.fireEvent(
+                            new javafx.stage.WindowEvent(stage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                    )
+            );
+            vbox.getChildren().add(cancel1);
+
+            stage.setTitle("All Users");
             stage.setScene(scene);
+
             stage.show();
         });
 
@@ -283,6 +302,7 @@ public class manageUser extends Application {
         grid.add(activateButton, 1, 1);
         grid.add(deactivateButton, 2, 1);
         grid.add(viewAllButton, 0, 2);
+        grid.add(cancel, 0, 3);
         grid.add(statusLabel, 1, 2);
 
         Scene scene = new Scene(grid, 400, 300);
