@@ -39,11 +39,18 @@ public class ViewJobList extends Application {
         showLocalJobsButton.setOnAction(e -> loadJobsFromDatabase(jobListView, jobStage, true));
         showAllJobsButton.setOnAction(e -> loadJobsFromDatabase(jobListView, jobStage, false));
 
+        HBox header = new HBox(10);
+        Label jobTitleHeader = new Label("Job Title");
+        Label stateHeader = new Label("State");
+        Region spacerHeader = new Region();
+        HBox.setHgrow(spacerHeader, Priority.ALWAYS);
+        header.getChildren().addAll(jobTitleHeader, stateHeader, spacerHeader);
+
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(15));
-        layout.getChildren().addAll(new Label("Job List"), showLocalJobsButton, showAllJobsButton, jobListView);
+        layout.getChildren().addAll(new Label("Job List"), showLocalJobsButton, showAllJobsButton, header, jobListView);
 
-        Scene scene = new Scene(layout, 400, 300);
+        Scene scene = new Scene(layout, 500, 500);
         jobStage.setScene(scene);
         jobStage.show();
     }
@@ -116,6 +123,7 @@ public class ViewJobList extends Application {
 
                 Label jobLabel = new Label(title);
                 Label stateLabel = new Label(state);
+                stateLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333333; -fx-padding: 5px;");
                 Button viewButton = new Button("View");
                 viewButton.setOnAction(e -> {
                     String temp = stateLabel.getText();
