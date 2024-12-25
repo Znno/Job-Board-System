@@ -182,7 +182,7 @@ public class managePosts extends Application {
         layout.setPadding(new Insets(10));
         layout.getChildren().addAll(new Label("Title:"), titleField, new Label("Description:"), descriptionField, new Label("Requirements:"), requirementsField, saveButton);
 
-        Scene scene = new Scene(layout, 300, 200);
+        Scene scene = new Scene(layout, 300, 400);
         editStage.setScene(scene);
         editStage.show();
     }

@@ -338,7 +338,7 @@ public class manageUser extends Application {
             statusLabel.setText("User deleted.");
             refreshTable();
         });
-    
+
         grid.add(newUserLabel, 0, 0);
         grid.add(newUserField, 1, 0);
         grid.add(passLabel, 0, 1);

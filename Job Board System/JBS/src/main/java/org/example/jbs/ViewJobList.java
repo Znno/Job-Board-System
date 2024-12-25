@@ -39,14 +39,12 @@ public class ViewJobList extends Application {
         jobStage.show();
     }
 
-
     private void loadJobsFromDatabase(ListView<HBox> jobListView, Stage jobstage) {
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
 
-        String query = "SELECT title, description, requirements, employer_id,id,Location FROM jobs";
-
+        String query = "SELECT title, description, requirements, employer_id, id, location FROM jobs";
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              PreparedStatement stmt = conn.prepareStatement(query);
@@ -59,6 +57,7 @@ public class ViewJobList extends Application {
                 String description = rs.getString("description");
                 int job_id = rs.getInt("id");
                 String location = rs.getString("location");
+
                 String query1 = "SELECT id FROM jobseeker_profile WHERE user_id=?";
                 PreparedStatement stmt1 = conn.prepareStatement(query1);
                 stmt1.setInt(1, user_id);
@@ -69,7 +68,6 @@ public class ViewJobList extends Application {
                 }
 
                 String query2 = "SELECT state FROM applicants_details WHERE jobseeker_id=? AND job_id=?";
-
                 PreparedStatement stmt2 = conn.prepareStatement(query2);
                 stmt2.setInt(1, jobseeker_id);
                 stmt2.setInt(2, job_id);
@@ -78,31 +76,33 @@ public class ViewJobList extends Application {
                 if (rs2.next()) {
                     state = rs2.getString("state");
                 }
+
                 Label jobLabel = new Label(title);
                 Label stateLabel = new Label(state);
                 Button viewButton = new Button("View");
+
                 viewButton.setOnAction(e -> {
                     String temp = "Not Applied";
                     temp = stateLabel.getText();
                     if (temp.equals("Not Applied")) {
                         System.out.println(user_id);
                         Stage jobDetailStage = new Stage();
-                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id,location).start(jobDetailStage);
+                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id, location).start(jobDetailStage);
                         jobstage.hide();
 
-                        jobDetailStage.setOnCloseRequest(event -> jobstage.show());
-                        //loadJobsFromDatabase(jobListView, jobstage);
+                        jobDetailStage.setOnCloseRequest(event -> {
+                            jobstage.show();
+                            jobListView.getItems().clear(); // Clear the existing items
+                            loadJobsFromDatabase(jobListView, jobstage); // Refresh the job list
+                        });
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Already Applied");
                         alert.setHeaderText(null);
                         alert.setContentText("You have already applied to this job.");
                         alert.showAndWait();
-
                     }
-
                 });
-
 
                 HBox jobEntry = new HBox(10);
                 Region spacer = new Region();
@@ -111,6 +111,7 @@ public class ViewJobList extends Application {
                 jobEntry.getChildren().addAll(jobLabel, stateLabel, spacer, viewButton);
                 jobListView.getItems().add(jobEntry);
             }
+
             Button cancelButton = new Button("Cancel");
             cancelButton.setOnAction(e -> {
                 jobstage.fireEvent(

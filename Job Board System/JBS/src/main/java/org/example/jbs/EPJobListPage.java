@@ -46,13 +46,14 @@ public class EPJobListPage extends Application {
 
         addJobButton.setOnAction(e -> {
             Stage stage = new Stage();
-            new AddJobPage(employer_id ,primaryStage, username ).start(stage);
+            new AddJobPage(employer_id, primaryStage, username).start(stage);
             primaryStage.hide();
-            stage.setOnCloseRequest(event -> primaryStage.show());
-
-
+            stage.setOnCloseRequest(event -> {
+                primaryStage.show();
+                loadJobsFromDatabase(jobListView, primaryStage); // Refresh the job list
+            });
         });
-        Scene scene = new Scene(layout, 800, 500);
+        Scene scene = new Scene(layout, 1000, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

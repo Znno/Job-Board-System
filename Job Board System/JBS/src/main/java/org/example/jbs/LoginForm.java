@@ -90,6 +90,8 @@ public class LoginForm extends Application {
                         stage.setOnCloseRequest(event -> primarystage.show());
                     }
                     statusLabel.setText("");
+                    userField.setText("");
+                    passField.setText("");
                 } else if (check == 0) {
                     statusLabel.setText("User is not activated.");
                 } else if (check == -1) {
