@@ -17,6 +17,7 @@ import java.sql.*;
 
 public class ViewJobList extends Application {
     int user_id;
+    String jobSeekerLocation;
 
     public ViewJobList(int user_id) {
         this.user_id = user_id;
@@ -28,27 +29,63 @@ public class ViewJobList extends Application {
 
         ListView<HBox> jobListView = new ListView<>();
 
-        loadJobsFromDatabase(jobListView, jobStage);
+        // Load job seeker's location
+        loadJobSeekerLocation();
+
+        // Buttons to filter jobs
+        Button showLocalJobsButton = new Button("Show Local Jobs");
+        Button showAllJobsButton = new Button("Show All Jobs");
+
+        showLocalJobsButton.setOnAction(e -> loadJobsFromDatabase(jobListView, jobStage, true));
+        showAllJobsButton.setOnAction(e -> loadJobsFromDatabase(jobListView, jobStage, false));
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(15));
-        layout.getChildren().addAll(new Label("Job List"), jobListView);
+        layout.getChildren().addAll(new Label("Job List"), showLocalJobsButton, showAllJobsButton, jobListView);
 
         Scene scene = new Scene(layout, 400, 300);
         jobStage.setScene(scene);
         jobStage.show();
     }
 
-    private void loadJobsFromDatabase(ListView<HBox> jobListView, Stage jobstage) {
+    private void loadJobSeekerLocation() {
+        String url = "jdbc:mysql://localhost/jbs";
+        String user = "root";
+        String password = "";
+
+        String query = "SELECT location FROM jobseeker_profile WHERE user_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, user_id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                jobSeekerLocation = rs.getString("location");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadJobsFromDatabase(ListView<HBox> jobListView, Stage jobStage, boolean filterByLocation) {
+        jobListView.getItems().clear();
         String url = "jdbc:mysql://localhost/jbs";
         String user = "root";
         String password = "";
 
         String query = "SELECT title, description, requirements, employer_id, id, location FROM jobs";
+        if (filterByLocation) {
+            query += " WHERE location = ?";
+        }
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            if (filterByLocation) {
+                stmt.setString(1, jobSeekerLocation);
+            }
+
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 int employer_id = rs.getInt("employer_id");
@@ -80,21 +117,13 @@ public class ViewJobList extends Application {
                 Label jobLabel = new Label(title);
                 Label stateLabel = new Label(state);
                 Button viewButton = new Button("View");
-
                 viewButton.setOnAction(e -> {
-                    String temp = "Not Applied";
-                    temp = stateLabel.getText();
+                    String temp = stateLabel.getText();
                     if (temp.equals("Not Applied")) {
-                        System.out.println(user_id);
                         Stage jobDetailStage = new Stage();
-                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id, location).start(jobDetailStage);
-                        jobstage.hide();
-
-                        jobDetailStage.setOnCloseRequest(event -> {
-                            jobstage.show();
-                            jobListView.getItems().clear(); // Clear the existing items
-                            loadJobsFromDatabase(jobListView, jobstage); // Refresh the job list
-                        });
+                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id,location).start(jobDetailStage);
+                        jobStage.hide();
+                        jobDetailStage.setOnCloseRequest(event -> jobStage.show());
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Already Applied");
@@ -113,11 +142,9 @@ public class ViewJobList extends Application {
             }
 
             Button cancelButton = new Button("Cancel");
-            cancelButton.setOnAction(e -> {
-                jobstage.fireEvent(
-                        new javafx.stage.WindowEvent(jobstage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
-                );
-            });
+            cancelButton.setOnAction(e -> jobStage.fireEvent(
+                    new javafx.stage.WindowEvent(jobStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+            ));
 
             jobListView.getItems().add(new HBox(cancelButton));
 
