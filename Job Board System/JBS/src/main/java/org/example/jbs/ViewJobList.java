@@ -121,9 +121,14 @@ public class ViewJobList extends Application {
                     String temp = stateLabel.getText();
                     if (temp.equals("Not Applied")) {
                         Stage jobDetailStage = new Stage();
-                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id,location).start(jobDetailStage);
+                        new ViewJobDetails(title, description, requirements, employer_id, user_id, job_id, location).start(jobDetailStage);
                         jobStage.hide();
-                        jobDetailStage.setOnCloseRequest(event -> jobStage.show());
+
+                        jobDetailStage.setOnCloseRequest(event -> {
+                            jobStage.show();
+                            jobListView.getItems().clear(); // Clear the existing items
+                            loadJobsFromDatabase(jobListView, jobStage, false); // Refresh the job list
+                        });
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Already Applied");
