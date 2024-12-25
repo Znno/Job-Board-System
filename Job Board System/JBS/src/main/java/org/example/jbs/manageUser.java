@@ -279,11 +279,18 @@ public class manageUser extends Application {
             stage.setOnCloseRequest(event -> primaryStage.show());
 
         });
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(
+                e -> primaryStage.fireEvent(
+                        new javafx.stage.WindowEvent(primaryStage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+                )
+        );
 
         grid.add(userLabel, 0, 0);
         grid.add(userField, 1, 0);
         grid.add(deleteButton, 0, 1);
         grid.add(activateButton, 1, 1);
+        grid.add(cancelButton, 0, 3);
         grid.add(deactivateButton, 2, 1);
         grid.add(viewAllButton, 0, 2);
         grid.add(statusLabel, 1, 2);
@@ -331,7 +338,7 @@ public class manageUser extends Application {
             statusLabel.setText("User deleted.");
             refreshTable();
         });
-
+    
         grid.add(newUserLabel, 0, 0);
         grid.add(newUserField, 1, 0);
         grid.add(passLabel, 0, 1);
