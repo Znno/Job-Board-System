@@ -105,13 +105,13 @@ Ensure the `pom.xml` includes the `javafx-maven-plugin` and specifies the path t
 
 ● Administrators can update job postings.
 
-### Secuirty
+### Security
 o Hash passwords for all users (we use double hashing (1D hash function)).
 
 o Different roles will be made, so each user will be given a certain rule that gives them
 certain authority.
 
-### Reliablity
+### Reliability
 ● Data integrity during failures, as we will consider this in implementation makes most
 of the operations ATOMIC.
  
