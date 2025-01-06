@@ -66,6 +66,15 @@ Ensure the `pom.xml` includes the `javafx-maven-plugin` and specifies the path t
   ```bash
   mvn clean javafx:run
 ```
+##### Note:
+to sign in with admin role
+
+use these credentials
+
+username: admin
+
+password: admin
+
 ## System features
 #### Authentication and User Management
 ● Users can register as either Job Seekers or Employers. 
